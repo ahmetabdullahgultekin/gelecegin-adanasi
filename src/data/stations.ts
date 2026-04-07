@@ -29,6 +29,12 @@ export interface ProjectLocation {
 }
 
 export const railLines: RailLine[] = [
+  // =============================================
+  // HAT 1: M1 UZATMASI — Güney→Kuzey düz koridor
+  // Akıncılar'dan kuzeye, üniversite bölgesine
+  // Seyhan Barajı kaldırıldı (batıda, hattan sapma)
+  // ABTÜ kaldırıldı (doğuda, farklı yön — ayrı hat gerektirir)
+  // =============================================
   {
     id: "m1-extension",
     name: "Hat 1: M1 Uzatması",
@@ -94,20 +100,12 @@ export const railLines: RailLine[] = [
         descriptionEn: "Region's largest healthcare facility",
       },
       {
-        name: "Seyhan Barajı",
-        nameEn: "Seyhan Dam",
-        lat: 37.0393,
-        lng: 35.3320,
-        description: "Baraj ve rekreasyon alanı",
-        descriptionEn: "Dam and recreation area",
-      },
-      {
-        name: "ABTÜ",
-        nameEn: "ABTU",
-        lat: 37.0433,
-        lng: 35.3870,
-        description: "Alparslan Türkeş Bilim ve Teknoloji Üniversitesi",
-        descriptionEn: "Alparslan Turkes Science and Technology University",
+        name: "Sarıçam Kavşağı",
+        nameEn: "Saricam Junction",
+        lat: 37.0380,
+        lng: 35.3530,
+        description: "Sarıçam bağlantısı",
+        descriptionEn: "Saricam connection",
       },
       {
         name: "Çukurova Üniversitesi (Balcalı)",
@@ -121,12 +119,19 @@ export const railLines: RailLine[] = [
         name: "Yeni Adana Stadyumu",
         nameEn: "New Adana Stadium",
         lat: 37.0600,
-        lng: 35.3800,
-        description: "Yeni stadyum kompleksi",
-        descriptionEn: "New stadium complex",
+        lng: 35.3650,
+        description: "Yeni stadyum kompleksi — son durak",
+        descriptionEn: "New stadium complex — terminal",
       },
     ],
   },
+
+  // =============================================
+  // HAT 2: ŞEHİR İÇİ RİNG — Kompakt dairesel rota
+  // Saat yönünde, şehir merkezinde kalıyor
+  // M1 AVM ve Turgut Özal kaldırıldı (çok uzak, ring bozuluyor)
+  // Gerçek şehir merkezi noktaları ile kompakt ring
+  // =============================================
   {
     id: "ring-tram",
     name: "Hat 2: Şehir İçi Ring",
@@ -135,6 +140,7 @@ export const railLines: RailLine[] = [
     type: "Hafif Raylı / Tramvay",
     typeEn: "Light Rail / Tram",
     stations: [
+      // Saat yönünde: Gar → güney → doğu → kuzey → batı → Gar
       {
         name: "Adana Merkez Gar",
         nameEn: "Adana Central Station",
@@ -142,22 +148,6 @@ export const railLines: RailLine[] = [
         lng: 35.3192,
         description: "Ana transfer merkezi — başlangıç/bitiş",
         descriptionEn: "Main transfer hub — start/end",
-      },
-      {
-        name: "Ziyapaşa Bulvarı",
-        nameEn: "Ziyapasa Boulevard",
-        lat: 36.9994,
-        lng: 35.3206,
-        description: "Kafeler ve ticaret",
-        descriptionEn: "Cafes and commerce",
-      },
-      {
-        name: "Taşköprü / Büyüksaat",
-        nameEn: "Stone Bridge / Clock Tower",
-        lat: 36.9840,
-        lng: 35.3315,
-        description: "Turistik ve tarihi merkez",
-        descriptionEn: "Tourist and historical center",
       },
       {
         name: "Valilik",
@@ -168,28 +158,52 @@ export const railLines: RailLine[] = [
         descriptionEn: "Government offices",
       },
       {
-        name: "Adliye",
-        nameEn: "Courthouse",
-        lat: 37.0099,
-        lng: 35.3441,
-        description: "Bölge Adliye Mahkemesi",
-        descriptionEn: "Regional Courthouse",
+        name: "Ziyapaşa Bulvarı",
+        nameEn: "Ziyapasa Boulevard",
+        lat: 36.9960,
+        lng: 35.3180,
+        description: "Kafeler ve ticaret",
+        descriptionEn: "Cafes and commerce",
       },
       {
-        name: "M1 Adana AVM",
-        nameEn: "M1 Adana Mall",
-        lat: 37.0153,
-        lng: 35.2502,
-        description: "Batı alışveriş merkezi",
-        descriptionEn: "West shopping center",
+        name: "İnönü Caddesi",
+        nameEn: "Inonu Street",
+        lat: 36.9900,
+        lng: 35.3230,
+        description: "Alışveriş caddesi",
+        descriptionEn: "Shopping street",
       },
       {
-        name: "Turgut Özal Bulvarı",
-        nameEn: "Turgut Ozal Boulevard",
-        lat: 37.0485,
-        lng: 35.2843,
-        description: "Şehrin en yoğun aksı",
-        descriptionEn: "City's busiest axis",
+        name: "Taşköprü / Büyüksaat",
+        nameEn: "Stone Bridge / Clock Tower",
+        lat: 36.9840,
+        lng: 35.3315,
+        description: "Turistik ve tarihi merkez",
+        descriptionEn: "Tourist and historical center",
+      },
+      {
+        name: "Galleria",
+        nameEn: "Galleria Mall",
+        lat: 36.9839,
+        lng: 35.3400,
+        description: "Alışveriş ve eğlence",
+        descriptionEn: "Shopping and entertainment",
+      },
+      {
+        name: "Merkez Park",
+        nameEn: "Central Park",
+        lat: 36.9870,
+        lng: 35.3450,
+        description: "Şehir parkı",
+        descriptionEn: "City park",
+      },
+      {
+        name: "Optimum Kavşağı",
+        nameEn: "Optimum Junction",
+        lat: 36.9908,
+        lng: 35.3404,
+        description: "M1 Metrosu ile kesişim",
+        descriptionEn: "M1 Metro intersection",
       },
       {
         name: "Barajyolu",
@@ -200,28 +214,12 @@ export const railLines: RailLine[] = [
         descriptionEn: "Student neighborhoods",
       },
       {
-        name: "Merkez Park",
-        nameEn: "Central Park",
-        lat: 36.9977,
-        lng: 35.3402,
-        description: "Şehir parkı",
-        descriptionEn: "City park",
-      },
-      {
-        name: "Galleria",
-        nameEn: "Galleria Mall",
-        lat: 36.9839,
-        lng: 35.3267,
-        description: "Alışveriş ve eğlence",
-        descriptionEn: "Shopping and entertainment",
-      },
-      {
-        name: "Optimum Kavşağı",
-        nameEn: "Optimum Junction",
-        lat: 36.9908,
-        lng: 35.3404,
-        description: "M1 Metrosu ile kesişim",
-        descriptionEn: "M1 Metro intersection",
+        name: "Adliye",
+        nameEn: "Courthouse",
+        lat: 36.9980,
+        lng: 35.3300,
+        description: "Bölge Adliye Mahkemesi",
+        descriptionEn: "Regional Courthouse",
       },
       {
         name: "Adana Merkez Gar",
@@ -233,6 +231,12 @@ export const railLines: RailLine[] = [
       },
     ],
   },
+
+  // =============================================
+  // HAT 3a: ÇUKUROVARAY DOĞU-BATI
+  // Tarsus → Ceyhan arası TCDD hattı boyunca
+  // Düzgün batı→doğu akışı
+  // =============================================
   {
     id: "cukurovaray-ew",
     name: "Hat 3a: ÇukurovaRay Doğu-Batı",
@@ -284,7 +288,7 @@ export const railLines: RailLine[] = [
       {
         name: "İncirlik",
         nameEn: "Incirlik",
-        lat: 36.9841,
+        lat: 36.9950,
         lng: 35.4351,
         description: "Sanayi ve yerleşim bölgesi",
         descriptionEn: "Industrial and residential area",
@@ -298,9 +302,9 @@ export const railLines: RailLine[] = [
         descriptionEn: "Intermediate station",
       },
       {
-        name: "Misis (Yakapınar)",
-        nameEn: "Misis (Yakapinar)",
-        lat: 36.9700,
+        name: "Misis",
+        nameEn: "Misis",
+        lat: 36.9750,
         lng: 35.5800,
         description: "Antik kent yakını",
         descriptionEn: "Near ancient city",
@@ -315,6 +319,12 @@ export const railLines: RailLine[] = [
       },
     ],
   },
+
+  // =============================================
+  // HAT 3b: ÇUKUROVARAY KUZEY
+  // Merkez → Kozan arası kuzeydoğu koridoru
+  // Sıralama düzeltildi: güneybatı→kuzeydoğu doğrusal akış
+  // =============================================
   {
     id: "cukurovaray-north",
     name: "Hat 3b: ÇukurovaRay Kuzey",
@@ -332,28 +342,28 @@ export const railLines: RailLine[] = [
         descriptionEn: "Departure point",
       },
       {
-        name: "Sarıçam OSB",
-        nameEn: "Saricam Industrial Zone",
-        lat: 36.9781,
-        lng: 35.5985,
-        description: "Sanayi işçileri için kilit durak",
-        descriptionEn: "Key stop for industrial workers",
-      },
-      {
-        name: "Kürkçüler",
-        nameEn: "Kurkcular",
-        lat: 37.1034,
-        lng: 35.5220,
-        description: "Kuzey geçiş noktası",
-        descriptionEn: "Northern transit point",
-      },
-      {
         name: "Buruk / TOKİ",
         nameEn: "Buruk / TOKI Housing",
         lat: 37.0395,
         lng: 35.4546,
         description: "Toplu konut yerleşkeleri",
         descriptionEn: "Mass housing estates",
+      },
+      {
+        name: "Kürkçüler",
+        nameEn: "Kurkcular",
+        lat: 37.0700,
+        lng: 35.5000,
+        description: "Kuzey geçiş noktası",
+        descriptionEn: "Northern transit point",
+      },
+      {
+        name: "Sarıçam OSB",
+        nameEn: "Saricam Industrial Zone",
+        lat: 37.1000,
+        lng: 35.5400,
+        description: "Sanayi işçileri için kilit durak",
+        descriptionEn: "Key stop for industrial workers",
       },
       {
         name: "Ceyhan Ovası Kavşağı",
@@ -389,6 +399,13 @@ export const railLines: RailLine[] = [
       },
     ],
   },
+
+  // =============================================
+  // HAT 4: MAVİ HAT — Merkez → Güney sahil
+  // Düzgün güneye iniş, Akyatan ayrı çatal olarak
+  // Şakirpaşa kaldırıldı (batıya sapma yapıyor)
+  // Akyatan sona taşındı — Karataş'tan batıya çatal
+  // =============================================
   {
     id: "blue-line",
     name: "Hat 4: Mavi Hat (Sahil)",
@@ -406,20 +423,20 @@ export const railLines: RailLine[] = [
         descriptionEn: "Departure",
       },
       {
-        name: "Şakirpaşa",
-        nameEn: "Sakirpasa",
-        lat: 36.9825,
-        lng: 35.2879,
-        description: "Hat 3a aktarma noktası",
-        descriptionEn: "Line 3a transfer point",
+        name: "Küçükdikili",
+        nameEn: "Kucukdikili",
+        lat: 36.9600,
+        lng: 35.3300,
+        description: "Güney çıkış noktası",
+        descriptionEn: "Southern exit point",
       },
       {
         name: "Havutlu",
         nameEn: "Havutlu",
         lat: 36.9260,
         lng: 35.3433,
-        description: "Karataş yolu çıkışı",
-        descriptionEn: "Karatas road exit",
+        description: "Karataş yolu üzeri",
+        descriptionEn: "On Karatas road",
       },
       {
         name: "Tuzla",
@@ -438,20 +455,12 @@ export const railLines: RailLine[] = [
         descriptionEn: "Pre-coastal settlement",
       },
       {
-        name: "Bahçe / Yenikaraağaç",
-        nameEn: "Bahce / Yenikaraagac",
+        name: "Bahçe",
+        nameEn: "Bahce",
         lat: 36.7700,
         lng: 35.3500,
         description: "Kırsal geçiş",
         descriptionEn: "Rural transit",
-      },
-      {
-        name: "Karataş",
-        nameEn: "Karatas",
-        lat: 36.5646,
-        lng: 35.3841,
-        description: "Sahil merkezi — plaj ve su sporları",
-        descriptionEn: "Coastal center — beach and water sports",
       },
       {
         name: "Akyatan Lagünü",
@@ -460,6 +469,53 @@ export const railLines: RailLine[] = [
         lng: 35.2743,
         description: "Uluslararası kuş cenneti — ekoturizm",
         descriptionEn: "International bird sanctuary — eco-tourism",
+      },
+      {
+        name: "Karataş",
+        nameEn: "Karatas",
+        lat: 36.5646,
+        lng: 35.3841,
+        description: "Sahil terminali — plaj ve su sporları",
+        descriptionEn: "Coastal terminal — beach and water sports",
+      },
+    ],
+  },
+
+  // =============================================
+  // HAT 5: YUMURTALIK ÇATALI — Doğu sahili
+  // Hat 3a'dan (Ceyhan hattından) ayrılan güney çatalı
+  // =============================================
+  {
+    id: "yumurtalik-branch",
+    name: "Hat 5: Yumurtalık Çatalı",
+    nameEn: "Line 5: Yumurtalik Branch",
+    color: "#f72585",
+    type: "Sahil Hattı",
+    typeEn: "Coastal Line",
+    stations: [
+      {
+        name: "Ceyhan",
+        nameEn: "Ceyhan",
+        lat: 37.0181,
+        lng: 35.8173,
+        description: "Hat 3a aktarma noktası",
+        descriptionEn: "Line 3a transfer point",
+      },
+      {
+        name: "Erzin Yol Ayrımı",
+        nameEn: "Erzin Junction",
+        lat: 36.9500,
+        lng: 35.8100,
+        description: "Güney çatalı başlangıcı",
+        descriptionEn: "Southern branch start",
+      },
+      {
+        name: "Yumurtalık",
+        nameEn: "Yumurtalik",
+        lat: 36.7676,
+        lng: 35.7916,
+        description: "Ayas Antik Kenti — butik turizm terminali",
+        descriptionEn: "Ayas Ancient City — boutique tourism terminal",
       },
     ],
   },
@@ -510,6 +566,16 @@ export const projectLocations: ProjectLocation[] = [
     description: "Ceyhan'dan banliyöye aktarma otoparkı.",
     descriptionEn: "Transfer parking from Ceyhan to commuter rail.",
   },
+  {
+    name: "ABTÜ Kampüs Servisi",
+    nameEn: "ABTU Campus Shuttle",
+    lat: 37.0433,
+    lng: 35.3870,
+    category: "transport",
+    icon: "shuttle",
+    description: "ABTÜ'ye M1'den feeder otobüs/minibüs bağlantısı.",
+    descriptionEn: "Feeder bus/minibus connection from M1 to ABTU.",
+  },
 
   // === TOURISM ===
   {
@@ -552,6 +618,16 @@ export const projectLocations: ProjectLocation[] = [
     description: "Adana'nın simgesi. Nostaljik tramvay güzergahı ve çarşı esnafı.",
     descriptionEn: "Adana's landmark. Nostalgic tram route and bazaar area.",
   },
+  {
+    name: "Seyhan Barajı Rekreasyon",
+    nameEn: "Seyhan Dam Recreation",
+    lat: 37.0393,
+    lng: 35.3320,
+    category: "tourism",
+    icon: "nature",
+    description: "Baraj gölü çevresi piknik, yürüyüş ve doğa turizmi.",
+    descriptionEn: "Dam lake area picnic, hiking and nature tourism.",
+  },
 
   // === AGRICULTURE ===
   {
@@ -567,8 +643,8 @@ export const projectLocations: ProjectLocation[] = [
   {
     name: "Yüreğir Tarım İşleme Merkezi",
     nameEn: "Yuregir Agricultural Processing Center",
-    lat: 36.9866,
-    lng: 35.3378,
+    lat: 36.9600,
+    lng: 35.4000,
     category: "agriculture",
     icon: "farm",
     description: "Pamuk, soya, tahıl işleme. Yüreğir Ovası'nın kalbinde.",
@@ -577,8 +653,8 @@ export const projectLocations: ProjectLocation[] = [
   {
     name: "Kozan Narenciye Kooperatifi",
     nameEn: "Kozan Citrus Cooperative",
-    lat: 37.4478,
-    lng: 35.8166,
+    lat: 37.4500,
+    lng: 35.8200,
     category: "agriculture",
     icon: "farm",
     description: "Kozan portakalının markalaşması. Butik tarım kooperatifi.",
@@ -599,8 +675,8 @@ export const projectLocations: ProjectLocation[] = [
   {
     name: "Yenilik ve İnovasyon Teknoparkı",
     nameEn: "Innovation Technopark",
-    lat: 37.0500,
-    lng: 35.3574,
+    lat: 37.0520,
+    lng: 35.3600,
     category: "digital",
     icon: "tech",
     description: "Çukurova Üniversitesi yanı. Startup ekosistemi, yazılım, yapay zeka.",
@@ -629,20 +705,10 @@ export const projectLocations: ProjectLocation[] = [
     descriptionEn: "Riverfront landscape transformation. Walking and bike paths, shade corridors.",
   },
   {
-    name: "Seyhan Barajı Rekreasyon Alanı",
-    nameEn: "Seyhan Dam Recreation Area",
-    lat: 37.0393,
-    lng: 35.3320,
-    category: "urban",
-    icon: "green",
-    description: "Baraj çevresi park ve yeşil alan düzenlemesi.",
-    descriptionEn: "Dam area park and green space development.",
-  },
-  {
-    name: "Bisiklet Ağı Merkez — Turgut Özal",
-    nameEn: "Bike Network Center — Turgut Ozal",
-    lat: 37.0485,
-    lng: 35.2843,
+    name: "Bisiklet Ağı — Barajyolu Pilot",
+    nameEn: "Bike Network — Barajyolu Pilot",
+    lat: 36.9945,
+    lng: 35.3353,
     category: "urban",
     icon: "bike",
     description: "Şehir geneli bisiklet şeridi pilot bölgesi. Paylaşımlı bisiklet istasyonu.",
@@ -651,8 +717,8 @@ export const projectLocations: ProjectLocation[] = [
   {
     name: "Afet Toplanma Alanı — Merkez Park",
     nameEn: "Disaster Assembly Area — Central Park",
-    lat: 36.9977,
-    lng: 35.3402,
+    lat: 36.9870,
+    lng: 35.3450,
     category: "urban",
     icon: "safety",
     description: "Deprem toplanma alanı ve erken uyarı sistemi pilot noktası.",
@@ -670,5 +736,5 @@ export const projectLocations: ProjectLocation[] = [
   },
 ];
 
-// Legacy export for backward compat
+// Legacy export
 export const keyLocations = projectLocations;
