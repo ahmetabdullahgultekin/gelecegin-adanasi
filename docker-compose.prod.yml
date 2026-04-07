@@ -12,8 +12,8 @@ services:
       - "traefik.http.routers.gelecegin-adanasi.tls.certresolver=letsencrypt"
       - "traefik.http.services.gelecegin-adanasi.loadbalancer.server.port=3000"
     networks:
-      - traefik-net
+      - proxy
 
 networks:
-  traefik-net:
+  proxy:
     external: true
