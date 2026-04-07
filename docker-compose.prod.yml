@@ -7,7 +7,7 @@ services:
       - "3007:3000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.gelecegin-adanasi.rule=Host(`geleceginadanasi.org`)"
+      - "traefik.http.routers.gelecegin-adanasi.rule=Host(`geleceginadanasi.com.tr`) || Host(`www.geleceginadanasi.com.tr`)"
       - "traefik.http.routers.gelecegin-adanasi.entrypoints=websecure"
       - "traefik.http.routers.gelecegin-adanasi.tls.certresolver=letsencrypt"
       - "traefik.http.services.gelecegin-adanasi.loadbalancer.server.port=3000"
