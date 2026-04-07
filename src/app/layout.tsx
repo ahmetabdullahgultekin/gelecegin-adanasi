@@ -14,7 +14,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Geleceğin Adana'sı — Şehir Planlama Platformu",
+  title: {
+    default: "Geleceğin Adana'sı — Şehir Planlama Platformu",
+    template: "%s | Geleceğin Adana'sı",
+  },
   description:
     "Adana için bağımsız, veri odaklı şehir planlama ve vizyon platformu. Ulaşım, turizm, tarım ve dijital dönüşüm projeleri.",
   keywords: [
@@ -29,11 +32,33 @@ export const metadata: Metadata = {
     "Yumurtalık",
     "ÇukurovaRay",
   ],
+  metadataBase: new URL("https://geleceginadanasi.com.tr"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Geleceğin Adana'sı",
     description:
       "Adana için bağımsız, veri odaklı şehir planlama ve vizyon platformu.",
     type: "website",
+    url: "https://geleceginadanasi.com.tr",
+    siteName: "Geleceğin Adana'sı",
+    locale: "tr_TR",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Geleceğin Adana'sı — Şehir Planlama Platformu",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Geleceğin Adana'sı",
+    description:
+      "Adana için bağımsız, veri odaklı şehir planlama ve vizyon platformu.",
+    images: ["/og-image.png"],
   },
 };
 
