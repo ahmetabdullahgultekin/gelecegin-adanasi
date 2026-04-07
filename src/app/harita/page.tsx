@@ -13,24 +13,38 @@ const RailMap = dynamic(() => import("@/components/map/rail-map"), {
   ),
 });
 
+const projectCategories = [
+  { key: "hub", color: "#ef4444", tr: "Transfer Merkezi", en: "Transfer Hub" },
+  { key: "transport", color: "#f97316", tr: "Ulaşım", en: "Transport" },
+  { key: "tourism", color: "#8b5cf6", tr: "Turizm", en: "Tourism" },
+  { key: "agriculture", color: "#22c55e", tr: "Tarım", en: "Agriculture" },
+  { key: "digital", color: "#3b82f6", tr: "Dijital", en: "Digital" },
+  { key: "urban", color: "#14b8a6", tr: "Kentsel Yaşam", en: "Urban Living" },
+];
+
 export default function MapPage() {
-  const { t, locale } = useLocale();
+  const { locale } = useLocale();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-3xl font-bold text-gray-900 mb-2">
-        {t.sections.railSystem}
+        {locale === "tr"
+          ? "Adana Vizyon Haritası"
+          : "Adana Vision Map"}
       </h1>
       <p className="text-gray-500 mb-8">
         {locale === "tr"
-          ? "Tüm hatları ve durakları interaktif harita üzerinde keşfedin. Duraklara tıklayarak detayları görün."
-          : "Explore all lines and stations on the interactive map. Click on stations for details."}
+          ? "Raylı sistem hatları ve tüm proje lokasyonlarını interaktif harita üzerinde keşfedin. Filtreleri kullanarak kategorilere göre görüntüleyin."
+          : "Explore rail lines and all project locations on the interactive map. Use filters to view by category."}
       </p>
 
       <RailMap />
 
-      {/* Legend */}
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Rail Legend */}
+      <h2 className="text-xl font-semibold text-gray-900 mt-10 mb-4">
+        {locale === "tr" ? "Raylı Sistem Hatları" : "Rail System Lines"}
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {railLines.map((line) => (
           <div
             key={line.id}
@@ -45,7 +59,9 @@ export default function MapPage() {
                 {locale === "tr" ? line.name : line.nameEn}
               </p>
               <p className="text-gray-500 text-xs mt-0.5">
-                {locale === "tr" ? line.type : line.typeEn}
+                {locale === "tr" ? line.type : line.typeEn} &middot;{" "}
+                {line.stations.length}{" "}
+                {locale === "tr" ? "durak" : "stations"}
               </p>
               <p className="text-gray-400 text-xs mt-1">
                 {line.stations
@@ -53,6 +69,24 @@ export default function MapPage() {
                   .join(" → ")}
               </p>
             </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Project Legend */}
+      <h2 className="text-xl font-semibold text-gray-900 mt-10 mb-4">
+        {locale === "tr" ? "Proje Kategorileri" : "Project Categories"}
+      </h2>
+      <div className="flex flex-wrap gap-3">
+        {projectCategories.map((cat) => (
+          <div key={cat.key} className="flex items-center gap-2">
+            <div
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: cat.color }}
+            />
+            <span className="text-sm text-gray-600">
+              {locale === "tr" ? cat.tr : cat.en}
+            </span>
           </div>
         ))}
       </div>
