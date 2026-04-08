@@ -75,6 +75,7 @@ docker compose -f docker-compose.prod.yml up -d --build  # Production deploy
 ```
 
 ## Deploy
-- Production: `http://<server-ip>:3007`
-- Domain (planned): `geleceginadanasi.org`
-- Traefik labels pre-configured for HTTPS when domain is ready
+- Production: `https://geleceginadanasi.com.tr` (LIVE)
+- Docker port: 3007 (mapped to internal 3000)
+- Traefik: HTTPS with Let's Encrypt auto-cert
+- GitHub: https://github.com/ahmetabdullahgultekin/gelecegin-adanasi (public)
