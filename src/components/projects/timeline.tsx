@@ -3,10 +3,10 @@
 import { useLocale } from "@/lib/locale-context";
 
 const phaseStyles = [
-  { accent: "#0f766e", bg: "rgba(15,118,110,0.06)", text: "text-[color:#0f766e]" },
-  { accent: "#335f97", bg: "rgba(51,95,151,0.06)", text: "text-[color:#335f97]" },
-  { accent: "#d97706", bg: "rgba(217,119,6,0.06)", text: "text-[color:#d97706]" },
-  { accent: "#6d28d9", bg: "rgba(109,40,217,0.06)", text: "text-[color:#6d28d9]" },
+  { accent: "#0f766e", bg: "rgba(15,118,110,0.06)" },
+  { accent: "#335f97", bg: "rgba(51,95,151,0.06)" },
+  { accent: "#d97706", bg: "rgba(217,119,6,0.06)" },
+  { accent: "#6d28d9", bg: "rgba(109,40,217,0.06)" },
 ];
 
 export default function Timeline() {

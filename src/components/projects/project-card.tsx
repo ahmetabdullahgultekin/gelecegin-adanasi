@@ -2,14 +2,14 @@
 
 import { useLocale } from "@/lib/locale-context";
 
+/**
+ * Project card — pulls every displayed field (title / description / type /
+ * cost / authority) from the `t.projects[titleKey]` i18n entry, so callers
+ * only need to provide the i18n key and the category accent colour.
+ */
 interface ProjectCardProps {
   titleKey: string;
-  descriptionKey: string;
-  typeKey: string;
-  costKey: string;
-  authorityKey: string;
   color: string;
-  icon: React.ReactNode;
 }
 
 export default function ProjectCard({

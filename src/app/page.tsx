@@ -55,8 +55,11 @@ const projectSections = [
   },
 ];
 
-/** On-scroll reveal hook. Adds `in` class when element enters viewport. */
-function useReveal(): React.RefCallback<HTMLElement> {
+/** On-scroll reveal: attach IntersectionObserver to every `.reveal` element
+ *  once on mount, add the `in` class when it enters the viewport, then
+ *  unobserve so the transition only plays once. No return value — side
+ *  effect only. */
+function useReveal(): void {
   const observer = useRef<IntersectionObserver | null>(null);
   useEffect(() => {
     observer.current = new IntersectionObserver(
@@ -73,7 +76,6 @@ function useReveal(): React.RefCallback<HTMLElement> {
     document.querySelectorAll(".reveal").forEach((el) => observer.current?.observe(el));
     return () => observer.current?.disconnect();
   }, []);
-  return () => {};
 }
 
 export default function HomePage() {
@@ -84,8 +86,11 @@ export default function HomePage() {
   const totalLines = railLines.length;
   const totalStations = railLines.reduce((n, l) => n + l.stations.length, 0);
 
-  // Convert USD cost strings to rough total (display only — not canonical data)
-  const estimatedBudgetUSD = 3;  // ~3 billion USD planning horizon
+  // Display-only rough planning-horizon estimate in USD billions. Not
+  // computed from individual project costs (they're free-form strings like
+  // "~$300 million" / "Public-private partnership" — not summable). Update
+  // this figure manually when the data/i18n cost lines materially change.
+  const estimatedBudgetUSD = 3; // ≈ sum of the numeric cost estimates across all 14 projects
   const budgetLabel = locale === "tr" ? "milyar USD planlama ufku" : "billion USD planning horizon";
 
   return (
@@ -314,12 +319,7 @@ export default function HomePage() {
                 <ProjectCard
                   key={projectKey}
                   titleKey={projectKey}
-                  descriptionKey={projectKey}
-                  typeKey={projectKey}
-                  costKey={projectKey}
-                  authorityKey={projectKey}
                   color={section.color}
-                  icon={section.icon}
                 />
               ))}
             </div>
