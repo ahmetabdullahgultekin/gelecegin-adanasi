@@ -75,12 +75,7 @@ export default function ProjectsPage() {
               <ProjectCard
                 key={projectKey}
                 titleKey={projectKey}
-                descriptionKey={projectKey}
-                typeKey={projectKey}
-                costKey={projectKey}
-                authorityKey={projectKey}
                 color={section.color}
-                icon={section.icon}
               />
             ))}
           </div>

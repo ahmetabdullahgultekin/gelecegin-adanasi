@@ -2,58 +2,80 @@
 
 import { useLocale } from "@/lib/locale-context";
 
+/**
+ * Project card — pulls every displayed field (title / description / type /
+ * cost / authority) from the `t.projects[titleKey]` i18n entry, so callers
+ * only need to provide the i18n key and the category accent colour.
+ */
 interface ProjectCardProps {
   titleKey: string;
-  descriptionKey: string;
-  typeKey: string;
-  costKey: string;
-  authorityKey: string;
   color: string;
-  icon: React.ReactNode;
 }
 
 export default function ProjectCard({
   titleKey,
-  descriptionKey,
-  typeKey,
-  costKey,
-  authorityKey,
   color,
-  icon,
 }: ProjectCardProps) {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
 
   const project =
     t.projects[titleKey as keyof typeof t.projects];
   if (!project) return null;
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-lg hover:border-gray-300 transition-all duration-300 group">
-      <div className="flex items-start gap-4">
-        <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-white"
-          style={{ backgroundColor: color }}
-        >
-          {icon}
+    <article className="group relative flex flex-col bg-white rounded-2xl border border-[color:var(--border)] hover:border-[color:var(--civic-300)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-18px_rgba(13,30,55,0.22)] overflow-hidden">
+      {/* Category accent stripe — colored, subtle */}
+      <div
+        aria-hidden
+        className="absolute top-0 left-0 right-0 h-0.5"
+        style={{ backgroundColor: color }}
+      />
+
+      <div className="p-5 md:p-6 flex flex-col h-full">
+        {/* Type chip */}
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <span
+            className="civic-chip"
+            style={{
+              color,
+              backgroundColor: "white",
+              borderColor: `color-mix(in srgb, ${color} 22%, transparent)`,
+            }}
+          >
+            {project.type}
+          </span>
+          <span className="text-xs font-tabular font-semibold text-[color:var(--ink-muted)]">
+            {project.cost}
+          </span>
         </div>
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 text-lg group-hover:text-blue-600 transition-colors">
-            {project.title}
-          </h3>
-          <p className="text-gray-500 text-sm mt-1">{project.description}</p>
-          <div className="flex flex-wrap gap-2 mt-3">
-            <span className="px-2.5 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
-              {project.type}
-            </span>
-            <span className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
-              {project.cost}
-            </span>
-            <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium">
-              {project.authority}
-            </span>
-          </div>
+
+        {/* Title */}
+        <h3 className="font-display text-lg md:text-xl font-bold text-[color:var(--ink)] tracking-tight leading-snug group-hover:text-[color:var(--civic-700)] transition-colors">
+          {project.title}
+        </h3>
+
+        {/* Description */}
+        <p className="mt-2 text-[color:var(--ink-muted)] text-sm leading-relaxed flex-grow">
+          {project.description}
+        </p>
+
+        {/* Authority footer */}
+        <div className="mt-4 pt-3 border-t border-[color:var(--border-soft)] flex items-center gap-2 text-xs">
+          <svg
+            className="w-3.5 h-3.5 text-[color:var(--ink-subtle)] shrink-0"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m-1 4h1m-1 4h1m4-8h1m-1 4h1m-1 4h1" />
+          </svg>
+          <span className="text-[color:var(--ink-muted)] font-medium">
+            {locale === "tr" ? "Yetki:" : "Authority:"}
+          </span>
+          <span className="text-[color:var(--ink-soft)]">{project.authority}</span>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

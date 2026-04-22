@@ -2,11 +2,11 @@
 
 import { useLocale } from "@/lib/locale-context";
 
-const phaseColors = [
-  { bg: "bg-blue-50", border: "border-blue-300", dot: "bg-blue-500" },
-  { bg: "bg-emerald-50", border: "border-emerald-300", dot: "bg-emerald-500" },
-  { bg: "bg-amber-50", border: "border-amber-300", dot: "bg-amber-500" },
-  { bg: "bg-purple-50", border: "border-purple-300", dot: "bg-purple-500" },
+const phaseStyles = [
+  { accent: "#0f766e", bg: "rgba(15,118,110,0.06)" },
+  { accent: "#335f97", bg: "rgba(51,95,151,0.06)" },
+  { accent: "#d97706", bg: "rgba(217,119,6,0.06)" },
+  { accent: "#6d28d9", bg: "rgba(109,40,217,0.06)" },
 ];
 
 export default function Timeline() {
@@ -16,60 +16,89 @@ export default function Timeline() {
 
   return (
     <div className="relative">
-      <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 -translate-x-1/2" />
+      {/* Vertical rail (desktop) */}
+      <div className="hidden md:block absolute left-[27px] top-6 bottom-6 w-px bg-[color:var(--border)]" />
 
-      <div className="space-y-8">
+      <ol className="space-y-6 md:space-y-8">
         {phases.map((phase, index) => {
-          const colors = phaseColors[index];
-          const isLeft = index % 2 === 0;
-
+          const s = phaseStyles[index];
           return (
-            <div
+            <li
               key={index}
-              className={`relative flex flex-col md:flex-row items-center gap-4 ${
-                isLeft ? "md:flex-row" : "md:flex-row-reverse"
-              }`}
+              className="relative grid grid-cols-1 md:grid-cols-[56px_1fr] gap-4 md:gap-6"
             >
-              <div className={`flex-1 ${isLeft ? "md:text-right" : "md:text-left"}`}>
+              {/* Phase marker */}
+              <div className="flex md:flex-col items-center md:items-center gap-3 md:gap-0">
                 <div
-                  className={`${colors.bg} ${colors.border} border rounded-2xl p-6 inline-block max-w-md`}
+                  className="relative w-14 h-14 rounded-full flex items-center justify-center font-display font-bold text-white text-lg shrink-0 z-10"
+                  style={{
+                    backgroundColor: s.accent,
+                    boxShadow: `0 12px 28px -12px ${s.accent}80, inset 0 1px 0 rgba(255,255,255,0.18)`,
+                  }}
                 >
-                  <div className="flex items-center gap-2 mb-2">
-                    <span
-                      className={`w-3 h-3 rounded-full ${colors.dot}`}
-                    />
-                    <h3 className="font-semibold text-gray-900">
-                      {phase.title}
-                    </h3>
-                  </div>
-                  <p className="text-sm font-medium text-gray-500 mb-3">
+                  {index + 1}
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 rounded-full ring-4 ring-white/0"
+                  />
+                </div>
+                <div className="md:hidden flex-1 min-w-0">
+                  <h3 className="font-display text-lg font-bold text-[color:var(--ink)] tracking-tight">
+                    {phase.title}
+                  </h3>
+                  <p className="text-xs font-semibold text-[color:var(--ink-muted)] uppercase tracking-wider">
                     {phase.period}
                   </p>
-                  <ul className="space-y-1.5">
-                    {phase.items.map((item, i) => (
-                      <li
-                        key={i}
-                        className="text-sm text-gray-600 flex items-start gap-2"
-                      >
-                        <span className="text-gray-400 mt-0.5">&#8226;</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </div>
 
+              {/* Phase card */}
               <div
-                className={`hidden md:flex w-10 h-10 rounded-full ${colors.dot} items-center justify-center text-white font-bold text-sm z-10 shrink-0`}
+                className="relative rounded-2xl p-5 md:p-6 border transition-all"
+                style={{
+                  borderColor: `color-mix(in srgb, ${s.accent} 18%, transparent)`,
+                  background: `linear-gradient(135deg, ${s.bg}, transparent)`,
+                }}
               >
-                {index + 1}
-              </div>
+                {/* Desktop header (hidden on mobile since marker carries it) */}
+                <div className="hidden md:flex items-baseline justify-between gap-3 mb-3 flex-wrap">
+                  <h3 className="font-display text-xl font-bold text-[color:var(--ink)] tracking-tight">
+                    {phase.title}
+                  </h3>
+                  <span
+                    className="font-tabular font-semibold text-sm"
+                    style={{ color: s.accent }}
+                  >
+                    {phase.period}
+                  </span>
+                </div>
 
-              <div className="flex-1 hidden md:block" />
-            </div>
+                <ul className="space-y-2">
+                  {phase.items.map((item, i) => (
+                    <li
+                      key={i}
+                      className="flex items-start gap-2.5 text-[color:var(--ink-soft)] text-sm leading-relaxed"
+                    >
+                      <svg
+                        className="w-4 h-4 mt-0.5 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke={s.accent}
+                        strokeWidth={2.5}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="m4 12 5 5L20 6" />
+                      </svg>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
           );
         })}
-      </div>
+      </ol>
     </div>
   );
 }
