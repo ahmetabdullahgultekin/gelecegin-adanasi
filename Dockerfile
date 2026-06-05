@@ -1,4 +1,4 @@
-FROM node:22-alpine AS base
+FROM node:24-alpine AS base
 
 FROM base AS deps
 WORKDIR /app
@@ -23,4 +23,8 @@ USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+# Traefik should only route once Next.js is actually serving (prevents a
+# brief 502 window on --no-cache rebuilds while the server boots).
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+  CMD wget -q --spider http://localhost:3000/ || exit 1
 CMD ["node", "server.js"]
