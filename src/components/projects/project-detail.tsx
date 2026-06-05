@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations, useLocale } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import {
   type ProjectMeta,
   locationsForProject,
@@ -9,31 +9,49 @@ import {
   projects,
 } from "@/data/projects";
 import { projectDetailContent } from "@/lib/project-detail-content";
+import type { Locale } from "@/lib/i18n";
 
-const categoryLabels: Record<string, { tr: string; en: string }> = {
-  transport: { tr: "Ulaşım", en: "Transport" },
-  tourism: { tr: "Turizm ve Tarım", en: "Tourism & Agriculture" },
-  digital: { tr: "Dijital", en: "Digital" },
-  urban: { tr: "Kentsel Yaşam", en: "Urban Living" },
-};
+interface PhaseEntry {
+  title: string;
+  period: string;
+  items: string[];
+}
 
 /** Client-rendered project detail. Reads the active locale and renders the
  *  rich content (overview, feasibility, highlights, authority split, phasing,
  *  related lines/locations/projects). */
 export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
-  const { t, locale, setLocale } = useLocale();
+  const t = useTranslations();
+  const tCommon = useTranslations("common");
+  const tProject = useTranslations(`projects.${meta.i18nKey}`);
+  const locale = useLocale() as Locale;
+  const pathname = usePathname();
+  const otherLocale = locale === "tr" ? "en" : "tr";
 
-  const project = t.projects[meta.i18nKey as keyof typeof t.projects];
   const detail = projectDetailContent[meta.i18nKey];
-  if (!project || !detail) return null;
+  const known = projects.some((p) => p.i18nKey === meta.i18nKey);
+  if (!known || !detail) return null;
+
+  const project = {
+    title: tProject("title"),
+    description: tProject("description"),
+    type: tProject("type"),
+    cost: tProject("cost"),
+    authority: tProject("authority"),
+  };
 
   const locations = locationsForProject(meta);
   const lines = railLinesForProject(meta);
-  const phaseList = [t.phases.phase1, t.phases.phase2, t.phases.phase3, t.phases.phase4];
+  const phaseList: PhaseEntry[] = [
+    t.raw("phases.phase1"),
+    t.raw("phases.phase2"),
+    t.raw("phases.phase3"),
+    t.raw("phases.phase4"),
+  ];
   const related = projects.filter(
     (p) => p.category === meta.category && p.slug !== meta.slug
   );
-  const catLabel = categoryLabels[meta.category];
+  const catLabel = t(`ui.detailCategories.${meta.category}`);
 
   return (
     <div className="bg-[color:var(--paper)]">
@@ -58,11 +76,11 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
           {/* Breadcrumb */}
           <nav aria-label="breadcrumb" className="mb-6 text-sm text-blue-200/80">
             <Link href="/" className="hover:text-white transition-colors">
-              {t.nav.home}
+              {t("nav.home")}
             </Link>
             <span className="mx-2 opacity-50">/</span>
             <Link href="/projeler" className="hover:text-white transition-colors">
-              {t.nav.projects}
+              {t("nav.projects")}
             </Link>
             <span className="mx-2 opacity-50">/</span>
             <span className="text-white">{project.title}</span>
@@ -72,7 +90,7 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
             className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full border border-white/20 bg-white/5 text-xs font-medium uppercase tracking-wider"
             style={{ color: "white" }}
           >
-            {locale === "tr" ? catLabel.tr : catLabel.en}
+            {catLabel}
           </div>
 
           <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight max-w-3xl">
@@ -86,19 +104,19 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
           <dl className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl">
             <div className="rounded-xl border border-white/15 bg-white/5 px-4 py-3">
               <dt className="text-xs uppercase tracking-wider text-blue-200/70">
-                {t.common.type}
+                {tCommon("type")}
               </dt>
               <dd className="mt-1 font-semibold">{project.type}</dd>
             </div>
             <div className="rounded-xl border border-white/15 bg-white/5 px-4 py-3">
               <dt className="text-xs uppercase tracking-wider text-blue-200/70">
-                {t.common.cost}
+                {tCommon("cost")}
               </dt>
               <dd className="mt-1 font-semibold font-tabular">{project.cost}</dd>
             </div>
             <div className="rounded-xl border border-white/15 bg-white/5 px-4 py-3 col-span-2 md:col-span-1">
               <dt className="text-xs uppercase tracking-wider text-blue-200/70">
-                {t.common.authority}
+                {tCommon("authority")}
               </dt>
               <dd className="mt-1 font-semibold">{project.authority}</dd>
             </div>
@@ -109,13 +127,13 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
               href="/harita"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[color:var(--civic-800)] font-semibold rounded-full hover:bg-blue-50 transition-colors"
             >
-              {t.common.onMap}
+              {tCommon("onMap")}
             </Link>
             <Link
               href="/projeler"
               className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/30 bg-white/5 text-white font-semibold rounded-full hover:bg-white/10 transition-colors"
             >
-              ← {t.common.allProjects}
+              ← {tCommon("allProjects")}
             </Link>
           </div>
         </div>
@@ -128,7 +146,7 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
           {/* Feasibility */}
           <section>
             <h2 className="font-display text-2xl font-bold text-[color:var(--ink)] tracking-tight mb-4">
-              {t.common.feasibility}
+              {tCommon("feasibility")}
             </h2>
             <p className="text-[color:var(--ink-soft)] leading-relaxed">
               {detail.feasibility[locale]}
@@ -138,7 +156,7 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
           {/* Highlights */}
           <section>
             <h2 className="font-display text-2xl font-bold text-[color:var(--ink)] tracking-tight mb-4">
-              {t.common.highlights}
+              {tCommon("highlights")}
             </h2>
             <ul className="space-y-3">
               {detail.highlights[locale].map((h, i) => (
@@ -168,7 +186,7 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
           {/* Authority split */}
           <section>
             <h2 className="font-display text-2xl font-bold text-[color:var(--ink)] tracking-tight mb-4">
-              {t.common.authoritySplit}
+              {tCommon("authoritySplit")}
             </h2>
             <ul className="space-y-2">
               {detail.authoritySplit[locale].map((a, i) => (
@@ -187,7 +205,7 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
           {lines.length > 0 && (
             <section>
               <h2 className="font-display text-2xl font-bold text-[color:var(--ink)] tracking-tight mb-4">
-                {t.common.relatedLines}
+                {tCommon("relatedLines")}
               </h2>
               <div className="space-y-3">
                 {lines.map((line) => (
@@ -204,7 +222,7 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
                       {locale === "tr" ? line.name : line.nameEn}
                     </span>
                     <span className="ml-auto text-xs text-[color:var(--ink-muted)] font-tabular">
-                      {line.stations.length} {t.common.stations}
+                      {line.stations.length} {tCommon("stations")}
                     </span>
                   </Link>
                 ))}
@@ -218,7 +236,7 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
           {/* Phasing */}
           <section className="rounded-2xl border border-[color:var(--border)] bg-white p-6">
             <h2 className="font-display text-lg font-bold text-[color:var(--ink)] tracking-tight mb-4">
-              {t.common.phasing}
+              {tCommon("phasing")}
             </h2>
             <ul className="space-y-3">
               {detail.phases.map((phaseNum) => {
@@ -246,7 +264,7 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
           {locations.length > 0 && (
             <section className="rounded-2xl border border-[color:var(--border)] bg-white p-6">
               <h2 className="font-display text-lg font-bold text-[color:var(--ink)] tracking-tight mb-4">
-                {t.common.keyLocations}
+                {tCommon("keyLocations")}
               </h2>
               <ul className="space-y-2.5">
                 {locations.map((loc, i) => (
@@ -280,7 +298,7 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
                 href="/harita"
                 className="mt-4 inline-flex items-center gap-1.5 text-sm text-[color:var(--civic-700)] font-semibold hover:gap-2.5 transition-all"
               >
-                {t.common.onMap} →
+                {tCommon("onMap")} →
               </Link>
             </section>
           )}
@@ -300,18 +318,19 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
               </svg>
-              {t.common.shareFeedback}
+              {tCommon("shareFeedback")}
             </a>
           </section>
 
-          {/* Language note for crawlers / direct visitors */}
-          <button
-            type="button"
-            onClick={() => setLocale(locale === "tr" ? "en" : "tr")}
+          {/* Language link for crawlers / direct visitors — switches locale on
+              the same path (TR → /en/projeler/..., EN → /projeler/...). */}
+          <Link
+            href={pathname}
+            locale={otherLocale}
             className="text-xs font-mono text-[color:var(--ink-muted)] hover:text-[color:var(--civic-700)] transition-colors"
           >
-            {locale === "tr" ? "Read in English →" : "Türkçe oku →"}
-          </button>
+            {t("ui.readInOther")}
+          </Link>
         </aside>
       </div>
 
@@ -320,26 +339,23 @@ export default function ProjectDetail({ meta }: { meta: ProjectMeta }) {
         <section className="border-t border-[color:var(--border)] bg-[color:var(--paper-soft)]">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <h2 className="font-display text-xl font-bold text-[color:var(--ink)] tracking-tight mb-6">
-              {t.common.relatedProjects}
+              {tCommon("relatedProjects")}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {related.map((p) => {
-                const rp = t.projects[p.i18nKey as keyof typeof t.projects];
-                return (
-                  <Link
-                    key={p.slug}
-                    href={`/projeler/${p.slug}`}
-                    className="group p-5 rounded-2xl bg-white border border-[color:var(--border)] hover:border-[color:var(--civic-300)] transition-all hover:-translate-y-0.5"
-                  >
-                    <p className="font-display font-semibold text-[color:var(--ink)] group-hover:text-[color:var(--civic-700)] transition-colors leading-snug">
-                      {rp.title}
-                    </p>
-                    <p className="mt-2 text-xs text-[color:var(--ink-muted)] font-tabular">
-                      {rp.cost}
-                    </p>
-                  </Link>
-                );
-              })}
+              {related.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/projeler/${p.slug}`}
+                  className="group p-5 rounded-2xl bg-white border border-[color:var(--border)] hover:border-[color:var(--civic-300)] transition-all hover:-translate-y-0.5"
+                >
+                  <p className="font-display font-semibold text-[color:var(--ink)] group-hover:text-[color:var(--civic-700)] transition-colors leading-snug">
+                    {t(`projects.${p.i18nKey}.title`)}
+                  </p>
+                  <p className="mt-2 text-xs text-[color:var(--ink-muted)] font-tabular">
+                    {t(`projects.${p.i18nKey}.cost`)}
+                  </p>
+                </Link>
+              ))}
             </div>
           </div>
         </section>

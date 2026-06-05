@@ -1,11 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations, useLocale } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import { useState, useEffect } from "react";
 
 export default function Header() {
-  const { t, toggleLocale } = useLocale();
+  const t = useTranslations();
+  const locale = useLocale();
+  const pathname = usePathname();
+  // The other locale to switch to (toggle). `pathname` from next-intl is the
+  // locale-agnostic path, so the language switch preserves the current page.
+  const otherLocale = locale === "tr" ? "en" : "tr";
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -43,10 +48,10 @@ export default function Header() {
 
           <nav className="hidden md:flex items-center gap-1">
             {[
-              { href: "/", label: t.nav.home },
-              { href: "/projeler", label: t.nav.projects },
-              { href: "/harita", label: t.nav.map },
-              { href: "/hakkinda", label: t.nav.about },
+              { href: "/", label: t("nav.home") },
+              { href: "/projeler", label: t("nav.projects") },
+              { href: "/harita", label: t("nav.map") },
+              { href: "/hakkinda", label: t("nav.about") },
             ].map((item) => (
               <Link
                 key={item.href}
@@ -56,13 +61,14 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
-            <button
-              onClick={toggleLocale}
+            <Link
+              href={pathname}
+              locale={otherLocale}
               aria-label="Toggle language"
               className="ml-2 px-3 py-1.5 text-xs font-mono font-semibold text-[color:var(--civic-700)] border border-[color:var(--border)] rounded-full hover:bg-[color:var(--paper-soft)] hover:border-[color:var(--civic-300)] transition-colors"
             >
-              {t.nav.language}
-            </button>
+              {t("nav.language")}
+            </Link>
           </nav>
 
           <button
@@ -99,10 +105,10 @@ export default function Header() {
         {menuOpen && (
           <nav className="md:hidden pb-4 flex flex-col gap-1 pt-2">
             {[
-              { href: "/", label: t.nav.home },
-              { href: "/projeler", label: t.nav.projects },
-              { href: "/harita", label: t.nav.map },
-              { href: "/hakkinda", label: t.nav.about },
+              { href: "/", label: t("nav.home") },
+              { href: "/projeler", label: t("nav.projects") },
+              { href: "/harita", label: t("nav.map") },
+              { href: "/hakkinda", label: t("nav.about") },
             ].map((item) => (
               <Link
                 key={item.href}
@@ -113,15 +119,14 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
-            <button
-              onClick={() => {
-                toggleLocale();
-                setMenuOpen(false);
-              }}
-              className="mt-2 mx-3 px-3 py-2 text-sm font-mono font-semibold text-[color:var(--civic-700)] border border-[color:var(--border)] rounded-full hover:bg-[color:var(--paper-soft)] transition-colors"
+            <Link
+              href={pathname}
+              locale={otherLocale}
+              onClick={() => setMenuOpen(false)}
+              className="mt-2 mx-3 px-3 py-2 text-sm font-mono font-semibold text-[color:var(--civic-700)] border border-[color:var(--border)] rounded-full hover:bg-[color:var(--paper-soft)] transition-colors text-center"
             >
-              {t.nav.language}
-            </button>
+              {t("nav.language")}
+            </Link>
           </nav>
         )}
       </div>

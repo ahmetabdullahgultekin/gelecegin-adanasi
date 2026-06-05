@@ -38,10 +38,11 @@ planner can critique, and a citizen can contribute to, in either language.
 ## Current state (verified at HEAD, 2026-06-05)
 
 **Stack:** Next.js 16 (App Router, Turbopack) + React 19 + TypeScript +
-Tailwind CSS 4 + Leaflet/react-leaflet over OpenStreetMap; custom React-context
-TR/EN i18n with URL (`?lang`) + localStorage persistence. Deployed as a
-standalone Docker image behind Traefik on Hetzner at `geleceginadanasi.com.tr`
-(compose service `gelecegin-adanasi`, host `3007` → container `3000`).
+Tailwind CSS 4 + Leaflet/react-leaflet over OpenStreetMap; **`next-intl`
+`[locale]` path routing** (`localePrefix: "as-needed"` — TR at `/`, EN at
+`/en/...`, server-rendered per locale). Deployed as a standalone Docker image
+behind Traefik on Hetzner at `geleceginadanasi.com.tr` (compose service
+`gelecegin-adanasi`, host `3007` → container `3000`).
 
 **Content model** (`src/data/stations.ts` + `src/data/projects.ts` +
 `src/lib/i18n.ts`): **6 rail lines / 49 line-stations**, **21 project-location**
@@ -51,11 +52,13 @@ bilingual detail page (`/projeler/[slug]`) carrying feasibility notes, an
 authority breakdown, phasing, highlights, related lines/locations, and a
 no-account feedback link.
 
-**SEO/i18n:** per-route metadata, canonical + **hreflang** (`tr-TR`/`en-US`/
-`x-default`) on every route and all 14 detail pages, a bilingual sitemap with
-`?lang=en` alternates, `Organization` + `WebSite` JSON-LD site-wide and a
-`CreativeWork` block per project, `<html lang>` synced to the active locale, and
-an OG image.
+**SEO/i18n:** `next-intl` `[locale]` routing gives each language its own
+server-rendered, crawlable URL (TR `/...`, EN `/en/...`); per-route **localized**
+metadata, canonical + **hreflang** (`tr-TR`/`en-US`/`x-default`) on every route
+and all 14 detail pages (× 2 locales = 28 SSG detail pages), a bilingual sitemap
+pairing the TR canonical with its `/en` twin, `Organization` + `WebSite` JSON-LD
+site-wide and a `CreativeWork` block per project, `<html lang={locale}>` set at
+the layout, and an OG image.
 
 **Build health:** `npm run lint` + `npm run build` green; CI runs both on PRs;
 `.dockerignore` trims the build context; Leaflet CSS is self-hosted (no CDN).
@@ -84,12 +87,12 @@ track, items are ordered. A track is "done enough" when its **Outcome** holds.
 
 ### Track B — Bilingual SEO excellence
 *EN must be a first-class citizen, not a toggle.*
-- [x] hreflang pairing + bilingual sitemap + JSON-LD + `<html lang>` sync +
-  locale persistence (URL + storage).
-- [ ] **Server-rendered EN** on `?lang=en` (read `searchParams.lang` in the
-  server layer so the EN body ships in the initial HTML, not just post-hydration)
-  — upgrades EN from "JS-rendered crawlable" to "static crawlable".
-- [ ] **Localized metadata**: EN `<title>`/description served when `lang=en`.
+- [x] hreflang pairing + bilingual sitemap + JSON-LD + `<html lang>` sync.
+- [x] **Server-rendered EN** — migrated from the client-only `?lang=en` toggle to
+  `next-intl` `[locale]` path routing (`localePrefix: "as-needed"`): EN now ships
+  in the initial HTML at its own `/en/...` URL ("static crawlable"), TR canonical
+  URLs (and the 14 stable slugs) preserved at `/`.
+- [x] **Localized metadata**: EN `<title>`/description/OG served on `/en`, TR on `/`.
 - [ ] **BreadcrumbList + per-page WebPage JSON-LD**; `FAQPage` on About.
 - [ ] **OG image per project** (generated at build via the existing SVG→WebP
   pipeline) so each detail page unfurls with its own card.
@@ -208,9 +211,14 @@ track, items are ordered. A track is "done enough" when its **Outcome** holds.
 - **Content depth:** all 14 per-project detail pages with feasibility/authority/
   phasing/highlights/related; "Detaylı İncele" CTA wired; illustrated projects
   hero via `next/image`.
-- **Bilingual SEO baseline:** locale persistence (URL + storage), `<html lang>`
-  sync, hreflang on every route + detail page, bilingual sitemap, JSON-LD
-  (Organization/WebSite/CreativeWork), harita metadata corrected.
+- **Bilingual SEO baseline:** `<html lang>` per locale, hreflang on every route +
+  detail page, bilingual sitemap, JSON-LD (Organization/WebSite/CreativeWork),
+  harita metadata corrected.
+- **Server-rendered EN (next-intl):** migrated i18n from the client-only
+  `?lang=en` toggle to `next-intl` `[locale]` path routing
+  (`localePrefix: "as-needed"`) — EN is now server-rendered at `/en/...` with its
+  own crawlable URL, localized metadata, and automatic hreflang; TR canonical URLs
+  and all 14 slugs preserved at `/`. Messages live in `messages/{tr,en}.json`.
 - **Data viz:** structured `costUsdM`, budget-by-category chart, derived budget
   figure.
 - **Engagement:** no-account feedback links site-wide.

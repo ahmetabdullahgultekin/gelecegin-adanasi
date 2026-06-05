@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { projects } from "@/data/projects";
 
 /**
@@ -19,11 +19,20 @@ export default function ProjectCard({
   titleKey,
   color,
 }: ProjectCardProps) {
-  const { t, locale } = useLocale();
+  const t = useTranslations();
+  const tProjects = useTranslations(`projects.${titleKey}`);
+  const tCommon = useTranslations("common");
 
-  const project =
-    t.projects[titleKey as keyof typeof t.projects];
-  if (!project) return null;
+  const known = projects.some((p) => p.i18nKey === titleKey);
+  if (!known) return null;
+
+  const project = {
+    title: tProjects("title"),
+    description: tProjects("description"),
+    type: tProjects("type"),
+    cost: tProjects("cost"),
+    authority: tProjects("authority"),
+  };
 
   const slug = projects.find((p) => p.i18nKey === titleKey)?.slug;
   const href = slug ? `/projeler/${slug}` : undefined;
@@ -80,7 +89,7 @@ export default function ProjectCard({
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m-1 4h1m-1 4h1m4-8h1m-1 4h1m-1 4h1" />
           </svg>
           <span className="text-[color:var(--ink-muted)] font-medium">
-            {locale === "tr" ? "Yetki:" : "Authority:"}
+            {t("ui.authorityShort")}
           </span>
           <span className="text-[color:var(--ink-soft)]">{project.authority}</span>
         </div>
@@ -88,7 +97,7 @@ export default function ProjectCard({
         {/* Learn-more CTA — only when a detail page exists */}
         {href && (
           <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[color:var(--civic-700)] group-hover:gap-2.5 transition-all">
-            {t.common.learnMore}
+            {tCommon("learnMore")}
             <svg
               className="w-3.5 h-3.5"
               fill="none"
@@ -108,7 +117,7 @@ export default function ProjectCard({
     return (
       <Link
         href={href}
-        aria-label={`${project.title} — ${t.common.learnMore}`}
+        aria-label={`${project.title} — ${tCommon("learnMore")}`}
         className={cardClass}
       >
         {inner}

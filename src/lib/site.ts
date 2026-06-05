@@ -1,29 +1,43 @@
 import type { Metadata } from "next";
+import { getPathname } from "@/i18n/navigation";
+import { routing, type AppLocale } from "@/i18n/routing";
 
 /** Canonical production origin. Single source of truth for SEO/metadata. */
 export const SITE_URL = "https://geleceginadanasi.com.tr";
 
 /** Supported locales, in declaration order (TR is the default / canonical). */
-export const LOCALES = ["tr", "en"] as const;
-export type SiteLocale = (typeof LOCALES)[number];
+export const LOCALES = routing.locales;
+export type SiteLocale = AppLocale;
 
 /**
- * Build `alternates` metadata for a route, pairing the Turkish (canonical)
- * URL with its English `?lang=en` twin via hreflang. This is what makes the
- * client-toggled EN content discoverable and linkable for crawlers.
+ * Build `alternates` metadata for a route under next-intl's `[locale]` routing.
  *
- * `path` is the route path beginning with "/" (use "/" for the homepage).
+ * With `localePrefix: "as-needed"`, Turkish (the default) keeps the bare path
+ * (`/`, `/projeler/...`) and English is served under `/en/...`. Each language
+ * therefore has its own server-rendered, crawlable URL; we pair them via
+ * hreflang (`tr-TR` / `en-US` / `x-default`) and set the canonical to the
+ * URL of the *currently rendered* locale.
+ *
+ * `href` is the locale-agnostic route (begins with "/", use "/" for the home).
+ * `currentLocale` is the locale being rendered (drives the `canonical`).
  */
-export function alternatesFor(path: string): NonNullable<Metadata["alternates"]> {
-  const clean = path === "/" ? "" : path;
-  const trUrl = `${SITE_URL}${clean}` || SITE_URL;
-  const enUrl = `${trUrl}?lang=en`;
+export async function alternatesFor(
+  href: string,
+  currentLocale: AppLocale
+): Promise<NonNullable<Metadata["alternates"]>> {
+  const trPath = await getPathname({ locale: "tr", href });
+  const enPath = await getPathname({ locale: "en", href });
+  const trUrl = `${SITE_URL}${trPath}`;
+  const enUrl = `${SITE_URL}${enPath}`;
+  const canonicalPath = currentLocale === "en" ? enPath : trPath;
+
   return {
-    canonical: path,
+    canonical: canonicalPath,
     languages: {
-      "tr-TR": trUrl || SITE_URL,
+      "tr-TR": trUrl,
       "en-US": enUrl,
-      "x-default": trUrl || SITE_URL,
+      // Turkish is the canonical default for crawlers without a language match.
+      "x-default": trUrl,
     },
   };
 }

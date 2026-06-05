@@ -1,24 +1,25 @@
 "use client";
 
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations } from "next-intl";
 import { railLines } from "@/data/stations";
 
 export default function AboutPage() {
-  const { t, locale } = useLocale();
+  const t = useTranslations();
 
   // Derive stats from the data so they never drift from the source of truth.
-  const totalProjects = Object.keys(t.projects).length;
+  const totalProjects = Object.keys(t.raw("projects")).length;
   const totalLines = railLines.length;
   const totalStations = railLines.reduce((n, l) => n + l.stations.length, 0);
-  const totalPhases = Object.keys(t.phases).length;
+  const totalPhases = Object.keys(t.raw("phases")).length;
+  const valuesList = t.raw("about.valuesList") as string[];
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">{t.about.title}</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">{t("about.title")}</h1>
 
       <div className="prose prose-gray max-w-none">
         <p className="text-lg text-gray-600 leading-relaxed">
-          {t.about.description}
+          {t("about.description")}
         </p>
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -40,9 +41,9 @@ export default function AboutPage() {
               </svg>
             </div>
             <h2 className="text-xl font-semibold text-gray-900 mb-3">
-              {t.about.mission}
+              {t("about.mission")}
             </h2>
-            <p className="text-gray-600">{t.about.missionText}</p>
+            <p className="text-gray-600">{t("about.missionText")}</p>
           </div>
 
           {/* Values */}
@@ -63,10 +64,10 @@ export default function AboutPage() {
               </svg>
             </div>
             <h2 className="text-xl font-semibold text-gray-900 mb-3">
-              {t.about.values}
+              {t("about.values")}
             </h2>
             <ul className="space-y-2">
-              {t.about.valuesList.map((value, i) => (
+              {valuesList.map((value, i) => (
                 <li key={i} className="flex items-start gap-2 text-gray-600">
                   <span className="text-emerald-500 mt-1">&#10003;</span>
                   {value}
@@ -97,12 +98,8 @@ export default function AboutPage() {
         {/* Disclaimer */}
         <div className="mt-12 bg-amber-50 border border-amber-200 rounded-xl p-6">
           <p className="text-amber-800 text-sm">
-            <strong>
-              {locale === "tr" ? "Sorumluluk Reddi" : "Disclaimer"}:
-            </strong>{" "}
-            {locale === "tr"
-              ? "Bu platformdaki tüm projeler öneri niteliğindedir. Tahmini maliyetler ve süre planlamaları gerçek fizibilite çalışmalarına dayanmamaktadır. Yetki alanı bilgileri genel bilgi amacıyla sunulmuştur."
-              : "All projects on this platform are proposals. Estimated costs and timelines are not based on actual feasibility studies. Authority information is provided for general reference only."}
+            <strong>{t("ui.about.disclaimerLabel")}:</strong>{" "}
+            {t("ui.about.disclaimerText")}
           </p>
         </div>
       </div>

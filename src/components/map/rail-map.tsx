@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations, useLocale } from "next-intl";
 import { railLines, projectLocations } from "@/data/stations";
 import "leaflet/dist/leaflet.css";
 
@@ -14,17 +14,11 @@ const categoryColors: Record<string, string> = {
   urban: "#14b8a6",
 };
 
-const categoryLabels: Record<string, { tr: string; en: string }> = {
-  hub: { tr: "Transfer Merkezi", en: "Transfer Hub" },
-  transport: { tr: "Ulaşım", en: "Transport" },
-  tourism: { tr: "Turizm", en: "Tourism" },
-  agriculture: { tr: "Tarım", en: "Agriculture" },
-  digital: { tr: "Dijital", en: "Digital" },
-  urban: { tr: "Kentsel Yaşam", en: "Urban Living" },
-};
-
 export default function RailMap() {
-  const { locale } = useLocale();
+  const t = useTranslations();
+  const locale = useLocale();
+  /** Localized label for a project category, from the `ui.categories` catalog. */
+  const categoryLabel = (cat: string) => t(`ui.categories.${cat}`);
   const [components, setComponents] = useState<{
     MapContainer: typeof import("react-leaflet").MapContainer;
     TileLayer: typeof import("react-leaflet").TileLayer;
@@ -62,7 +56,7 @@ export default function RailMap() {
   if (!components) {
     return (
       <div className="w-full h-[600px] bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
-        <span className="text-gray-400">Harita yükleniyor...</span>
+        <span className="text-gray-400">{t("ui.map.loading")}</span>
       </div>
     );
   }
@@ -83,7 +77,7 @@ export default function RailMap() {
               : "bg-white text-gray-500 border-gray-300"
           }`}
         >
-          {locale === "tr" ? "Raylı Hatlar" : "Rail Lines"}
+          {t("ui.map.railLinesToggle")}
         </button>
         <button
           type="button"
@@ -95,23 +89,17 @@ export default function RailMap() {
               : "bg-white text-gray-500 border-gray-300"
           }`}
         >
-          {locale === "tr" ? "Projeler" : "Projects"}
+          {t("ui.map.projectsToggle")}
         </button>
         <span className="w-px h-6 bg-gray-300 self-center mx-1" />
-        {Object.entries(categoryLabels).map(([key, label]) => (
+        {Object.keys(categoryColors).map((key) => (
           <button
             key={key}
             type="button"
             onClick={() => toggleCategory(key)}
             aria-pressed={activeCategories.has(key)}
-            aria-label={`${locale === "tr" ? label.tr : label.en} ${
-              activeCategories.has(key)
-                ? locale === "tr"
-                  ? "(açık)"
-                  : "(on)"
-                : locale === "tr"
-                  ? "(kapalı)"
-                  : "(off)"
+            aria-label={`${categoryLabel(key)} ${
+              activeCategories.has(key) ? t("ui.map.on") : t("ui.map.off")
             }`}
             className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 ${
               activeCategories.has(key)
@@ -124,7 +112,7 @@ export default function RailMap() {
                 : {}
             }
           >
-            {locale === "tr" ? label.tr : label.en}
+            {categoryLabel(key)}
           </button>
         ))}
       </div>
@@ -206,9 +194,7 @@ export default function RailMap() {
                       className="inline-block mt-1 px-1.5 py-0.5 rounded text-xs text-white"
                       style={{ backgroundColor: categoryColors[loc.category] }}
                     >
-                      {locale === "tr"
-                        ? categoryLabels[loc.category].tr
-                        : categoryLabels[loc.category].en}
+                      {categoryLabel(loc.category)}
                     </span>
                     <br />
                     <span className="text-gray-500 text-xs mt-1 block">

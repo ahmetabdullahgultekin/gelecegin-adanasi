@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations } from "next-intl";
 
 const phaseStyles = [
   { accent: "#0f766e", bg: "rgba(15,118,110,0.06)" },
@@ -9,10 +9,21 @@ const phaseStyles = [
   { accent: "#6d28d9", bg: "rgba(109,40,217,0.06)" },
 ];
 
-export default function Timeline() {
-  const { t } = useLocale();
+interface Phase {
+  title: string;
+  period: string;
+  items: string[];
+}
 
-  const phases = [t.phases.phase1, t.phases.phase2, t.phases.phase3, t.phases.phase4];
+export default function Timeline() {
+  const t = useTranslations("phases");
+
+  const phases: Phase[] = [
+    t.raw("phase1"),
+    t.raw("phase2"),
+    t.raw("phase3"),
+    t.raw("phase4"),
+  ];
 
   return (
     <div className="relative">

@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations } from "next-intl";
 import ProjectCard from "@/components/projects/project-card";
-import heroImg from "../../../public/images/projects-hero.webp";
+import heroImg from "../../../../public/images/projects-hero.webp";
 
 // Category accent colours come from the same CSS-variable palette the homepage
 // uses (defined once in globals.css / data/projects.ts), so the two project
@@ -32,7 +32,7 @@ const sections = [
 ];
 
 export default function ProjectsPage() {
-  const { t, locale } = useLocale();
+  const t = useTranslations();
 
   return (
     <div>
@@ -40,11 +40,7 @@ export default function ProjectsPage() {
       <div className="relative isolate overflow-hidden">
         <Image
           src={heroImg}
-          alt={
-            locale === "tr"
-              ? "Adana silüeti ve Çukurova deltası illüstrasyonu — raylı sistem motifi"
-              : "Illustration of the Adana skyline and Çukurova delta with a rail-system motif"
-          }
+          alt={t("ui.projectsPage.heroAlt")}
           priority
           placeholder="blur"
           sizes="100vw"
@@ -54,12 +50,10 @@ export default function ProjectsPage() {
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-8">
             <h1 className="font-display text-3xl md:text-5xl font-bold text-white tracking-tight">
-              {t.nav.projects}
+              {t("nav.projects")}
             </h1>
             <p className="mt-3 text-blue-100 max-w-2xl">
-              {locale === "tr"
-                ? "Adana için önerilen 14 proje; tahmini maliyetleri ve yetki alanlarıyla. Her karta tıklayarak detaylı incelemeye geçin."
-                : "14 proposed projects for Adana with estimated costs and authority scope. Click any card for the full detail page."}
+              {t("ui.projectsPage.subtitle")}
             </p>
           </div>
         </div>
@@ -69,7 +63,7 @@ export default function ProjectsPage() {
       {sections.map((section) => (
         <div key={section.sectionKey} className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            {t.sections[section.sectionKey]}
+            {t(`sections.${section.sectionKey}`)}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {section.projects.map((projectKey) => (

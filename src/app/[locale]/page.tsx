@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations, useLocale } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import ProjectCard from "@/components/projects/project-card";
 import Timeline from "@/components/projects/timeline";
 import BudgetChart from "@/components/projects/budget-chart";
@@ -81,7 +81,8 @@ function useReveal(): void {
 }
 
 export default function HomePage() {
-  const { t, locale } = useLocale();
+  const t = useTranslations();
+  const locale = useLocale();
   useReveal();
 
   const totalProjects = projectSections.reduce((n, s) => n + s.projects.length, 0);
@@ -92,7 +93,7 @@ export default function HomePage() {
   // `costUsdM` fields in `data/projects.ts` (sum of fixed-capital estimates;
   // PPP / multi-year programmes are excluded). Rounded to 1 decimal.
   const estimatedBudgetUSD = Math.round(totalNumericCostUsdM() / 100) / 10;
-  const budgetLabel = locale === "tr" ? "milyar USD planlama ufku" : "billion USD planning horizon";
+  const heroValues = t.raw("ui.values") as string[];
 
   return (
     <div>
@@ -122,20 +123,18 @@ export default function HomePage() {
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-xs font-medium tracking-wider uppercase text-white/80">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            {locale === "tr"
-              ? "Bağımsız · Veri odaklı · Toplum yararına"
-              : "Independent · Data-driven · Public-benefit"}
+            {t("ui.eyebrow")}
           </div>
 
           <h1 className="font-display text-white text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.02] max-w-4xl">
-            {t.hero.title}
+            {t("hero.title")}
           </h1>
 
           <p className="mt-6 text-blue-100 text-lg md:text-xl font-medium max-w-3xl">
-            {t.hero.subtitle}
+            {t("hero.subtitle")}
           </p>
           <p className="mt-4 text-blue-200/80 text-base md:text-lg max-w-2xl leading-relaxed">
-            {t.hero.description}
+            {t("hero.description")}
           </p>
 
           <div className="mt-10 flex flex-wrap gap-3">
@@ -143,7 +142,7 @@ export default function HomePage() {
               href="/harita"
               className="group inline-flex items-center gap-2 px-6 py-3.5 bg-white text-[color:var(--civic-800)] font-semibold rounded-full hover:bg-blue-50 transition-all hover:-translate-y-0.5"
             >
-              {t.hero.exploreMap}
+              {t("hero.exploreMap")}
               <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5-5 5M6 12h11" />
               </svg>
@@ -152,7 +151,7 @@ export default function HomePage() {
               href="/projeler"
               className="inline-flex items-center gap-2 px-6 py-3.5 border border-white/30 bg-white/5 text-white font-semibold rounded-full hover:bg-white/10 transition-colors backdrop-blur-sm"
             >
-              {t.hero.viewProjects}
+              {t("hero.viewProjects")}
             </Link>
           </div>
 
@@ -163,7 +162,7 @@ export default function HomePage() {
                 {totalProjects}
               </div>
               <div className="mt-1 text-xs md:text-sm text-blue-200/80 font-medium uppercase tracking-wider">
-                {locale === "tr" ? "Proje" : "Projects"}
+                {t("ui.stats.projects")}
               </div>
             </div>
             <div>
@@ -171,7 +170,7 @@ export default function HomePage() {
                 {totalLines}
               </div>
               <div className="mt-1 text-xs md:text-sm text-blue-200/80 font-medium uppercase tracking-wider">
-                {locale === "tr" ? "Raylı Hat" : "Rail Lines"}
+                {t("ui.stats.railLines")}
               </div>
             </div>
             <div>
@@ -179,7 +178,7 @@ export default function HomePage() {
                 {totalStations}
               </div>
               <div className="mt-1 text-xs md:text-sm text-blue-200/80 font-medium uppercase tracking-wider">
-                {locale === "tr" ? "Durak" : "Stations"}
+                {t("ui.stats.stations")}
               </div>
             </div>
             <div>
@@ -187,7 +186,7 @@ export default function HomePage() {
                 ~${estimatedBudgetUSD}B
               </div>
               <div className="mt-1 text-xs md:text-sm text-blue-200/80 font-medium uppercase tracking-wider">
-                {budgetLabel}
+                {t("ui.stats.budget")}
               </div>
             </div>
           </div>
@@ -198,10 +197,7 @@ export default function HomePage() {
       <section className="bg-[color:var(--paper-soft)] border-y border-[color:var(--border)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-xs md:text-sm text-[color:var(--ink-soft)] font-medium tracking-wide">
-            {(locale === "tr"
-              ? ["Bağımsız", "Veri odaklı", "Toplum yararına", "Açık kaynak", "Siyasetten bağımsız"]
-              : ["Independent", "Data-driven", "Public-benefit", "Open source", "Non-political"]
-            ).map((label, i) => (
+            {heroValues.map((label, i) => (
               <span key={i} className="inline-flex items-center gap-2">
                 <svg className="w-4 h-4 text-[color:var(--delta-500)]" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="m4 12 5 5L20 6" />
@@ -219,22 +215,20 @@ export default function HomePage() {
           <div className="reveal mb-10 md:mb-14 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <div className="civic-chip mb-3">
-                {locale === "tr" ? "Ulaşım" : "Transit"}
+                {t("ui.rail.chip")}
               </div>
               <h2 className="font-display text-3xl md:text-4xl font-bold text-[color:var(--ink)] tracking-tight">
-                {t.sections.railSystem}
+                {t("sections.railSystem")}
               </h2>
               <p className="mt-3 text-[color:var(--ink-muted)] max-w-2xl">
-                {locale === "tr"
-                  ? `${totalLines} hat, ${totalStations} durak. Metro, hafif raylı, banliyö ve turizm ekspresi — entegre şehir içi ve bölgesel raylı sistem önerileri.`
-                  : `${totalLines} lines, ${totalStations} stations. Metro, light rail, commuter, and tourism express — an integrated urban and regional rail proposal.`}
+                {t("ui.rail.subtitle", { lines: totalLines, stations: totalStations })}
               </p>
             </div>
             <Link
               href="/harita"
               className="shrink-0 inline-flex items-center gap-1.5 text-[color:var(--civic-700)] font-semibold hover:gap-3 transition-all group"
             >
-              {locale === "tr" ? "Haritada gör" : "See on map"}
+              {t("ui.rail.seeOnMap")}
               <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h11" />
               </svg>
@@ -271,7 +265,7 @@ export default function HomePage() {
                 </div>
                 <div className="mt-4 pt-4 border-t border-[color:var(--border-soft)] flex items-center justify-between">
                   <span className="text-xs text-[color:var(--ink-muted)]">
-                    {locale === "tr" ? "Duraklar" : "Stations"}
+                    {t("ui.rail.stationsLabel")}
                   </span>
                   <span className="font-tabular font-semibold text-[color:var(--ink)]">
                     {line.stations.length}
@@ -307,10 +301,10 @@ export default function HomePage() {
                   }}
                 >
                   {section.projects.length}{" "}
-                  {locale === "tr" ? "proje" : "projects"}
+                  {t("ui.projectsCountLabel")}
                 </div>
                 <h2 className="font-display text-2xl md:text-3xl font-bold text-[color:var(--ink)] tracking-tight">
-                  {t.sections[section.sectionKey]}
+                  {t(`sections.${section.sectionKey}`)}
                 </h2>
               </div>
             </div>
@@ -333,17 +327,13 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="reveal mb-8 md:mb-10">
             <div className="civic-chip mb-3">
-              {locale === "tr" ? "Veri" : "Data"}
+              {t("ui.budget.chip")}
             </div>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-[color:var(--ink)] tracking-tight">
-              {locale === "tr"
-                ? "Sayılarla Yatırım"
-                : "Investment in Numbers"}
+              {t("ui.budget.heading")}
             </h2>
             <p className="mt-3 text-[color:var(--ink-muted)] max-w-2xl">
-              {locale === "tr"
-                ? `Toplam ~$${estimatedBudgetUSD} milyar tahmini sabit sermaye yatırımının kategorilere dağılımı. Tüm rakamlar fizibilite öncesi tahmindir.`
-                : `Distribution of the ~$${estimatedBudgetUSD} billion estimated fixed-capital investment across categories. All figures are pre-feasibility estimates.`}
+              {t("ui.budget.subtitle", { budget: estimatedBudgetUSD })}
             </p>
           </div>
           <div className="reveal">
@@ -357,15 +347,13 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="reveal text-center mb-10 md:mb-16">
             <div className="civic-chip mb-4 inline-flex">
-              {locale === "tr" ? "10 yıllık ufuk" : "10-year horizon"}
+              {t("ui.timeline.chip")}
             </div>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-[color:var(--ink)] tracking-tight">
-              {t.sections.timeline}
+              {t("sections.timeline")}
             </h2>
             <p className="mt-4 text-[color:var(--ink-muted)] max-w-2xl mx-auto">
-              {locale === "tr"
-                ? "İlk 100 günden onuncu yıla — aşamalı, ölçülebilir ve uygulanabilir planlama."
-                : "From the first 100 days to year ten — staged, measurable, and implementable planning."}
+              {t("ui.timeline.subtitle")}
             </p>
           </div>
           <div className="reveal">
@@ -386,14 +374,10 @@ export default function HomePage() {
         />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative text-center">
           <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight">
-            {locale === "tr"
-              ? "Adana'nın Geleceğini Birlikte Planlayalım"
-              : "Let's Plan Adana's Future Together"}
+            {t("ui.cta.heading")}
           </h2>
           <p className="mt-6 text-blue-100 text-lg max-w-2xl mx-auto leading-relaxed">
-            {locale === "tr"
-              ? "Bu platform açık kaynaklıdır. Bulgulara katkıda bulunmak, öneri yapmak veya eleştirmek için GitHub üzerinden katılın. Her vatandaşın sesi önemlidir."
-              : "This platform is open source. Contribute findings, suggest improvements, or critique — join via GitHub. Every citizen's voice matters."}
+            {t("ui.cta.body")}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-3">
             <a
@@ -402,7 +386,7 @@ export default function HomePage() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-[color:var(--civic-800)] font-semibold rounded-full hover:bg-blue-50 transition-all hover:-translate-y-0.5"
             >
-              {locale === "tr" ? "Görüş Bildir" : "Share Feedback"}
+              {t("ui.cta.feedback")}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h11" />
               </svg>
@@ -411,7 +395,7 @@ export default function HomePage() {
               href="/harita"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/30 bg-white/5 text-white font-semibold rounded-full hover:bg-white/10 transition-colors backdrop-blur-sm"
             >
-              {t.hero.exploreMap}
+              {t("hero.exploreMap")}
             </Link>
             <a
               href="https://github.com/ahmetabdullahgultekin/gelecegin-adanasi"
@@ -426,14 +410,10 @@ export default function HomePage() {
             </a>
           </div>
           <p className="mt-5 text-sm text-blue-200/70">
-            {locale === "tr"
-              ? "GitHub hesabı gerektirmeyen geri bildirim için her proje sayfasında \"Görüş Bildir\" bağlantısı vardır."
-              : "Each project page has a \"Share feedback\" link; no GitHub account is required to read or propose."}
+            {t("ui.cta.note")}
           </p>
           <p className="mt-8 text-xs text-white/50 font-mono">
-            {locale === "tr"
-              ? "Bu bir siyasi kampanya değildir. Siyasi bağ yok."
-              : "This is not a political campaign. No political affiliation."}
+            {t("ui.cta.notPolitical")}
           </p>
         </div>
       </section>
