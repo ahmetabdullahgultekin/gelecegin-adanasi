@@ -46,7 +46,15 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
   - Done when: `git rev-parse main` == `git rev-parse origin/main`, and
     `git status` on `main` reports up-to-date.
 
-- [ ] **Rebuild & redeploy the live container to pick up Next 16.2.6.**
+- [x] **Rebuild & redeploy the live container to pick up Next 16.2.6.**
+  <!-- DONE 2026-06-05: disk at 87% (< 90% gate) → rebuild authorized.
+       `docker compose -f docker-compose.prod.yml up -d --build` (no --env-file:
+       the compose has no env_file/${VAR} interpolation, no .env.prod exists, and
+       the site uses zero runtime/build env — passing a missing file would error).
+       Container recreated (was "Up 6 weeks"); `next` inside = 16.2.6;
+       http://localhost:3007/ = 200; https://geleceginadanasi.com.tr/ = 200;
+       /og-image.png = 200 (140KB); homepage prose now serves "6 hat / 49 durak". -->
+
   - Target: Docker service `gelecegin-adanasi` (Hetzner, behind Traefik,
     `geleceginadanasi.com.tr`). Compose: `docker-compose.prod.yml`
     (host `3007` → container `3000`). The running container is currently
