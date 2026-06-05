@@ -46,12 +46,17 @@ docs/                     # Local docs (gitignored) — includes original brains
 - Commit messages: conventional commits in English
 
 ## Key Data
-### Rail System Lines (5 lines, 30+ stations)
-1. **Hat 1 (M1 Extension)**: Akincilar → ABTU (Metro, 7 stations)
-2. **Hat 2 (Ring Tram)**: Merkez Gar circular route (Tram, 9 stations)
-3. **Hat 3a (CukurovaRay E-W)**: Tarsus → Ceyhan (Commuter, 7 stations)
-4. **Hat 3b (CukurovaRay North)**: Merkez Gar → Kozan (Commuter, 4 stations)
-5. **Hat 4 (Mavi Hat)**: Merkez Gar → Karatas/Yumurtalik (Tourism, 5 stations)
+> Source of truth: `src/data/stations.ts` (rail lines/stations) and
+> `src/lib/i18n.ts` (`projects` = 14 keys). Counts below are derived — keep them
+> in sync if the data changes.
+
+### Rail System Lines (6 lines, 49 stations)
+1. **Hat 1 (M1 Extension)**: M1 Uzatması (Underground Metro, 10 stations)
+2. **Hat 2 (Ring Tram)**: Şehir İçi Ring (Light Rail / Tram, 11 stations)
+3. **Hat 3a (CukurovaRay E-W)**: ÇukurovaRay Doğu-Batı (Commuter Train, 9 stations)
+4. **Hat 3b (CukurovaRay North)**: ÇukurovaRay Kuzey (Commuter Train, 8 stations)
+5. **Hat 4 (Mavi Hat)**: Mavi Hat / Sahil (Tourism Express, 8 stations)
+6. **Hat 5 (Yumurtalik Branch)**: Yumurtalık Çatalı (Coastal Line, 3 stations)
 
 ### Major Projects (14 total)
 - Transport: M1 Extension, Ring Tram, CukurovaRay, Blue Line, Smart Terminal

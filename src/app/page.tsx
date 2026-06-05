@@ -225,8 +225,8 @@ export default function HomePage() {
               </h2>
               <p className="mt-3 text-[color:var(--ink-muted)] max-w-2xl">
                 {locale === "tr"
-                  ? "5 hat, 30+ durak. Metro, hafif raylı, banliyö ve turizm ekspresi — entegre şehir içi ve bölgesel raylı sistem önerileri."
-                  : "5 lines, 30+ stations. Metro, light rail, commuter, and tourism express — an integrated urban and regional rail proposal."}
+                  ? `${totalLines} hat, ${totalStations} durak. Metro, hafif raylı, banliyö ve turizm ekspresi — entegre şehir içi ve bölgesel raylı sistem önerileri.`
+                  : `${totalLines} lines, ${totalStations} stations. Metro, light rail, commuter, and tourism express — an integrated urban and regional rail proposal.`}
               </p>
             </div>
             <Link
