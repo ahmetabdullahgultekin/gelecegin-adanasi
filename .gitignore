@@ -39,5 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-# local docs (not for repo)
-/docs/
+# local docs (not for repo) — except tracked review/quality reports
+/docs/*
+!/docs/CODE_QUALITY_*.md
