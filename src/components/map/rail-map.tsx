@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "@/lib/locale-context";
 import { railLines, projectLocations } from "@/data/stations";
+import "leaflet/dist/leaflet.css";
 
 const categoryColors: Record<string, string> = {
   hub: "#ef4444",
@@ -24,24 +25,6 @@ const categoryLabels: Record<string, { tr: string; en: string }> = {
 
 export default function RailMap() {
   const { locale } = useLocale();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="w-full h-[600px] bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
-        <span className="text-gray-400">Harita yükleniyor...</span>
-      </div>
-    );
-  }
-
-  return <MapInner locale={locale} />;
-}
-
-function MapInner({ locale }: { locale: string }) {
   const [components, setComponents] = useState<{
     MapContainer: typeof import("react-leaflet").MapContainer;
     TileLayer: typeof import("react-leaflet").TileLayer;
@@ -88,11 +71,6 @@ function MapInner({ locale }: { locale: string }) {
 
   return (
     <>
-      <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      />
-
       {/* Filter controls */}
       <div className="mb-4 flex flex-wrap gap-2">
         <button
