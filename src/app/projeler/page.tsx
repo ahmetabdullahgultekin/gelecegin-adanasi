@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useLocale } from "@/lib/locale-context";
 import ProjectCard from "@/components/projects/project-card";
+import heroImg from "../../../public/images/projects-hero.webp";
 
 const transportIcon = (
   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,16 +57,37 @@ export default function ProjectsPage() {
   const { t, locale } = useLocale();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">
-        {t.nav.projects}
-      </h1>
-      <p className="text-gray-500 mb-12">
-        {locale === "tr"
-          ? "Adana için önerilen tüm projeler, tahmini maliyetleri ve yetki alanlarıyla birlikte."
-          : "All proposed projects for Adana with estimated costs and authority scope."}
-      </p>
+    <div>
+      {/* Hero banner with illustrated Çukurova/Adana motif */}
+      <div className="relative isolate overflow-hidden">
+        <Image
+          src={heroImg}
+          alt={
+            locale === "tr"
+              ? "Adana silüeti ve Çukurova deltası illüstrasyonu — raylı sistem motifi"
+              : "Illustration of the Adana skyline and Çukurova delta with a rail-system motif"
+          }
+          priority
+          placeholder="blur"
+          sizes="100vw"
+          className="w-full h-[220px] md:h-[300px] object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--civic-900)]/85 via-[color:var(--civic-900)]/30 to-transparent" />
+        <div className="absolute inset-0 flex items-end">
+          <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+            <h1 className="font-display text-3xl md:text-5xl font-bold text-white tracking-tight">
+              {t.nav.projects}
+            </h1>
+            <p className="mt-3 text-blue-100 max-w-2xl">
+              {locale === "tr"
+                ? "Adana için önerilen 14 proje; tahmini maliyetleri ve yetki alanlarıyla. Her karta tıklayarak detaylı incelemeye geçin."
+                : "14 proposed projects for Adana with estimated costs and authority scope. Click any card for the full detail page."}
+            </p>
+          </div>
+        </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {sections.map((section) => (
         <div key={section.sectionKey} className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
@@ -81,6 +104,7 @@ export default function ProjectsPage() {
           </div>
         </div>
       ))}
+      </div>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Harita",
   description:
-    "Adana vizyon haritası: 5 raylı sistem hattı, 30+ durak ve 14 projenin interaktif harita üzerinde görünümü.",
+    "Adana vizyon haritası: 6 raylı sistem hattı, 49 durak ve 14 projenin interaktif harita üzerinde görünümü.",
   openGraph: {
     title: "Harita — Geleceğin Adana'sı",
     description:
@@ -15,9 +16,7 @@ export const metadata: Metadata = {
     description:
       "Adana vizyon haritası: raylı sistem hatları ve tüm proje lokasyonları interaktif haritada.",
   },
-  alternates: {
-    canonical: "/harita",
-  },
+  alternates: alternatesFor("/harita"),
 };
 
 export default function HaritaLayout({

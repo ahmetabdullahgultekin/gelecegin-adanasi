@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="600" viewBox="0 0 1600 600" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1e37"/>
+      <stop offset="0.55" stop-color="#122a4c"/>
+      <stop offset="1" stop-color="#193764"/>
+    </linearGradient>
+    <linearGradient id="delta" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#0b5c55"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.82" cy="0.22" r="0.4">
+      <stop offset="0" stop-color="#d97706" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#d97706" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="600" fill="url(#sky)"/>
+  <rect width="1600" height="600" fill="url(#sun)"/>
+
+  <!-- Topographic contour lines -->
+  <g stroke="#ffffff" stroke-opacity="0.06" fill="none" stroke-width="1.5">
+    <path d="M0 140 Q400 70 800 140 T1600 140"/>
+    <path d="M0 190 Q400 120 800 190 T1600 190"/>
+    <path d="M0 240 Q400 170 800 240 T1600 240"/>
+  </g>
+
+  <!-- Seyhan river / delta ribbon -->
+  <path d="M-20 470 C 260 420 360 520 640 470 C 920 420 1040 520 1320 470 C 1480 442 1560 470 1620 458 L1620 600 L-20 600 Z"
+        fill="url(#delta)" fill-opacity="0.9"/>
+  <path d="M-20 470 C 260 420 360 520 640 470 C 920 420 1040 520 1320 470 C 1480 442 1560 470 1620 458"
+        stroke="#91cbb9" stroke-opacity="0.5" stroke-width="2" fill="none"/>
+
+  <!-- City skyline silhouette -->
+  <g fill="#0a1830" fill-opacity="0.92">
+    <rect x="120" y="360" width="40" height="120"/>
+    <rect x="172" y="320" width="52" height="160"/>
+    <rect x="236" y="390" width="34" height="90"/>
+    <!-- Sabancı Merkez Camii style dome + minarets motif -->
+    <rect x="300" y="300" width="70" height="180"/>
+    <circle cx="335" cy="300" r="35"/>
+    <rect x="294" y="250" width="8" height="230"/>
+    <rect x="368" y="250" width="8" height="230"/>
+    <rect x="420" y="370" width="44" height="110"/>
+    <rect x="476" y="330" width="60" height="150"/>
+    <rect x="548" y="395" width="30" height="85"/>
+  </g>
+  <!-- right cluster -->
+  <g fill="#0a1830" fill-opacity="0.85">
+    <rect x="1040" y="370" width="40" height="110"/>
+    <rect x="1092" y="330" width="56" height="150"/>
+    <rect x="1160" y="300" width="44" height="180"/>
+    <rect x="1216" y="350" width="36" height="130"/>
+    <rect x="1264" y="380" width="50" height="100"/>
+  </g>
+
+  <!-- Rail line motif across -->
+  <g stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M-20 520 L 1620 500" stroke="#e63946" stroke-opacity="0.85"/>
+    <path d="M-20 540 L 1620 524" stroke="#0077b6" stroke-opacity="0.7"/>
+  </g>
+  <g fill="#fbfaf7">
+    <circle cx="200" cy="518" r="6"/><circle cx="500" cy="514" r="6"/>
+    <circle cx="800" cy="510" r="6"/><circle cx="1100" cy="506" r="6"/>
+    <circle cx="1400" cy="502" r="6"/>
+  </g>
+</svg>

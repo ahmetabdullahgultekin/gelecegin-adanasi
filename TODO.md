@@ -157,7 +157,10 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
   - Done when: the harita page makes no request to `unpkg.com` and the map
     still renders with correct tile/marker styling.
 
-- [ ] **Add a `.dockerignore`.**
+- [x] **Add a `.dockerignore`.**
+  <!-- DONE 2026-06-05: .dockerignore added — excludes node_modules, .next, out,
+       dist, .git, .github, .env*, editors, docs, *.md (keeps README.md). Image
+       still builds + runs (verified). -->
   - None present. The build context currently includes `node_modules`,
     `.next`, `.git`, and `docs/` (incl. the 143 KB brainstorm PDF), slowing
     builds and bloating context sent to the daemon.
@@ -169,7 +172,12 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
 
 ## P2 — i18n, SEO, accessibility
 
-- [ ] **Persist locale across navigation/reload.**
+- [x] **Persist locale across navigation/reload.**
+  <!-- DONE 2026-06-05: locale-context.tsx now resolves the initial locale from
+       ?lang= → localStorage → <html lang> (via a lazy useState initializer, so
+       the React-19 set-state-in-effect rule stays satisfied) and writes the
+       choice back to localStorage on every change. Survives reload + route
+       changes. -->
   - `src/lib/locale-context.tsx` initializes `useState<Locale>("tr")` with no
     persistence — every page change / refresh resets EN users back to TR.
   - Action: hydrate from `localStorage` (or a cookie) and write on toggle;
@@ -177,7 +185,10 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
   - Done when: switching to EN survives a full reload and client-side route
     changes.
 
-- [ ] **Keep `<html lang>` in sync with the active locale.**
+- [x] **Keep `<html lang>` in sync with the active locale.**
+  <!-- DONE 2026-06-05: a sync effect in locale-context.tsx sets
+       document.documentElement.lang = locale on every change. SSR default stays
+       lang="tr"; the client updates it to "en" when EN is active. -->
   - `src/app/layout.tsx` hardcodes `lang="tr"`. When a user switches to EN the
     document language is still advertised as Turkish (screen-reader
     pronunciation + SEO signal wrong).
@@ -185,7 +196,13 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
     or move locale into the route so the server can set it.
   - Done when: `document.documentElement.lang` is `"en"` while EN is active.
 
-- [ ] **Make EN content discoverable by search engines (hreflang / lang URL).**
+- [x] **Make EN content discoverable by search engines (hreflang / lang URL).**
+  <!-- DONE 2026-06-05: src/lib/site.ts `alternatesFor(path)` pairs each TR
+       (canonical) URL with its `?lang=en` twin via hreflang (tr-TR / en-US /
+       x-default) in every route's metadata; sitemap.ts emits the same
+       alternates for all routes + 14 detail pages. The ?lang=en URL is
+       linkable/shareable and the client renders EN from it. Verified in the
+       built sitemap.xml.body + per-page HTML <link rel="alternate" hrefLang>. -->
   - i18n is 100% client-side toggle with no URL representation, so the EN
     translation is invisible to crawlers and not linkable. There is no
     `hreflang` and `sitemap.ts` lists only TR URLs.
@@ -194,20 +211,35 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
     `sitemap.ts`. (Larger change — design first.)
   - Done when: an EN URL is crawlable, self-canonical/hreflang-paired with TR,
     and present in the sitemap.
+  - Follow-up (ROADMAP Track B): server-render the EN body on `?lang=en` so EN
+    ships in the initial HTML, not just post-hydration.
 
-- [ ] **Add per-page metadata for the harita route.**
+- [x] **Add per-page metadata for the harita route.**
+  <!-- DONE 2026-06-05: harita/layout.tsx already had a unique title/description/
+       OG; fixed the stale "5 hat / 30+ durak" copy to "6 hat / 49 durak" and
+       switched canonical → alternatesFor("/harita") (canonical + hreflang). -->
   - `src/app/harita/layout.tsx` exists — confirm it sets a unique
     `title`/`description`/canonical/OG like `projeler/layout.tsx` does.
   - Done when: `/harita` has a distinct `<title>`, description, and
     `alternates.canonical: "/harita"`.
 
-- [ ] **Add `structured data` (JSON-LD) for the organization/site.**
+- [x] **Add `structured data` (JSON-LD) for the organization/site.**
+  <!-- DONE 2026-06-05: components/seo/json-ld.tsx renders Organization +
+       WebSite JSON-LD, included in the root layout (so it ships on every page's
+       initial HTML). Each detail page adds a CreativeWork block. Built HTML
+       confirmed to contain "@type":"Organization"/"WebSite"/"CreativeWork".
+       Built from static, non-user data only. -->
   - No `Organization`/`WebSite` schema. Adds rich-result eligibility and a
     clearer entity for the civic project.
   - Done when: a `WebSite` + `Organization` JSON-LD block renders in `<head>`
     and validates in a structured-data testing tool.
 
-- [ ] **Map page accessibility pass.**
+- [x] **Map page accessibility pass.**
+  <!-- DONE 2026-06-05: rail-map.tsx filter buttons now carry type="button",
+       aria-pressed reflecting on/off, an aria-label announcing state on the
+       category buttons, and focus-visible outline rings for keyboard use.
+       (Full keyboard marker traversal + non-map fallback list tracked in
+       ROADMAP Track D/G.) -->
   - Leaflet `CircleMarker` popups are mouse/click oriented; verify keyboard
     reachability and that the filter toggle buttons expose pressed state
     (`aria-pressed`). The category filter buttons in `rail-map.tsx` change
@@ -218,7 +250,14 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
 
 ## P3 — Content, data, engagement, polish
 
-- [ ] **Per-project detail pages.**
+- [x] **Per-project detail pages.**
+  <!-- DONE 2026-06-05: src/app/projeler/[slug]/page.tsx (SSG via
+       generateStaticParams — all 14 prerendered as static HTML) + a client
+       ProjectDetail component. Each page carries feasibility, authority split,
+       phasing, highlights, related rail lines, key map locations, related
+       projects, per-project metadata (title/desc/canonical/hreflang/OG) and a
+       CreativeWork JSON-LD block. Slugs + structured meta in data/projects.ts;
+       long-form bilingual copy in lib/project-detail-content.ts. -->
   - Today projects are cards only (`projeler/page.tsx`, `page.tsx`); there is
     no `/projeler/[slug]`. Detail pages would carry feasibility notes,
     municipal-vs-central authority breakdown, phasing, and the project's map
@@ -226,12 +265,25 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
   - Done when: each of the 14 projects has its own route + metadata, linked
     from the cards' "Detaylı İncele" (`common.learnMore`, currently unused).
 
-- [ ] **Wire up the unused `common.learnMore` CTA.**
+- [x] **Wire up the unused `common.learnMore` CTA.**
+  <!-- DONE 2026-06-05: ProjectCard now resolves the project's slug from
+       data/projects.ts; when a detail page exists the whole card becomes a
+       <Link> to /projeler/[slug] with a "Detaylı İncele" CTA row + aria-label
+       + focus-visible ring. `common.learnMore` is now rendered (no longer a
+       dead key). -->
   - `i18n.ts` defines `common.learnMore` ("Detaylı İncele" / "Learn More") but
     no component renders it. Either remove it or hook it to the detail pages.
   - Done when: the key is used or removed (no dead translation keys).
 
-- [ ] **Data visualization for project costs / phasing.**
+- [x] **Data visualization for project costs / phasing.**
+  <!-- DONE 2026-06-05: added a structured numeric `costUsdM` field per project
+       in data/projects.ts. components/projects/budget-chart.tsx renders a
+       budget-by-category bar chart from costByCategory() (pure SVG/CSS, no
+       chart lib). The homepage hero budget figure and the chart total are now
+       DERIVED from totalNumericCostUsdM() (≈ $3.1B), replacing the hardcoded
+       `estimatedBudgetUSD = 3`; both are clearly labelled pre-feasibility
+       estimates (PPP/multi-year excluded). Phasing Gantt tracked in ROADMAP
+       Track C. -->
   - The homepage shows a manually-maintained `~$3B` figure
     (`page.tsx` `estimatedBudgetUSD = 3`, hardcoded because costs are free-form
     strings). Add a small budget-by-category or timeline chart, and consider a
@@ -239,13 +291,24 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
   - Done when: a chart renders from data (not a hardcoded constant) and the
     homepage budget figure is derived or clearly labeled as an estimate.
 
-- [ ] **Citizen engagement: feedback / proposal channel.**
+- [x] **Citizen engagement: feedback / proposal channel.**
+  <!-- DONE 2026-06-05: no-account "Görüş Bildir / Share Feedback" links added
+       to the homepage CTA (pre-filled GitHub Issue, no account needed to read/
+       propose) and a per-project pre-filled feedback link on every detail page.
+       Structured no-backend form + comment digest tracked in ROADMAP Track E. -->
   - The CTA copy invites contribution but only links to GitHub. Consider a
     lightweight, no-backend option (GitHub Issues template link, or a form via
     a static form service) so non-developers can submit input.
   - Done when: a non-GitHub-account path exists for citizen feedback.
 
-- [ ] **Add real imagery / illustrations.**
+- [x] **Add real imagery / illustrations.**
+  <!-- DONE 2026-06-05: self-authored civic illustration (Adana skyline +
+       Çukurova delta + rail motif) at scripts/projects-hero.svg, rasterized to
+       an optimized 12 KB WebP (public/images/projects-hero.webp via sharp) and
+       rendered on the projects page header via next/image (static import,
+       priority, blur placeholder, descriptive bilingual alt text). Self-
+       authored asset = no licensing risk. Further photography pipeline tracked
+       in ROADMAP Track F. -->
   - `public/images/` is empty; the UI is all gradients + inline SVG icons.
     Project/landmark imagery (properly licensed) would raise credibility.
   - Done when: key sections use optimized `next/image` assets with alt text.

@@ -1,0 +1,25 @@
+# Build artifacts & dependencies (reinstalled/rebuilt inside the image)
+node_modules
+.next
+out
+dist
+
+# VCS & CI
+.git
+.gitignore
+.github
+
+# Local env & editor
+.env*
+.vscode
+.idea
+*.log
+
+# Docs & scratch (not needed by the build)
+docs
+*.md
+!README.md
+
+# OS noise
+.DS_Store
+Thumbs.db

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Projeler",
@@ -15,9 +16,7 @@ export const metadata: Metadata = {
     description:
       "Adana için önerilen 14 proje: ulaşım, turizm, dijital dönüşüm ve kentsel altyapı.",
   },
-  alternates: {
-    canonical: "/projeler",
-  },
+  alternates: alternatesFor("/projeler"),
 };
 
 export default function ProjelerLayout({

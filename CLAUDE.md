@@ -17,23 +17,38 @@ Goal: Present data-driven, realistic infrastructure proposals for public benefit
 ## Project Structure
 ```
 src/
-  app/                    # Next.js App Router pages
-    page.tsx              # Landing / hero page
-    client-layout.tsx     # Client-side layout (LocaleProvider + Header/Footer)
-    projeler/page.tsx     # All projects listing
-    harita/page.tsx       # Interactive map with Leaflet
-    hakkinda/page.tsx     # About page
+  app/                       # Next.js App Router pages
+    layout.tsx               # Root layout: metadata, hreflang alternates, JSON-LD
+    page.tsx                 # Landing / hero page (+ budget chart, CTA)
+    client-layout.tsx        # Client layout (LocaleProvider + Header/Footer)
+    sitemap.ts               # Bilingual sitemap (hreflang + all detail pages)
+    robots.ts                # robots.txt
+    projeler/page.tsx        # All projects listing (illustrated hero)
+    projeler/[slug]/page.tsx # Per-project detail (SSG, generateStaticParams)
+    harita/page.tsx          # Interactive map with Leaflet
+    hakkinda/page.tsx        # About page (stats derived from data)
+    {route}/layout.tsx       # Per-route metadata + alternatesFor()
   components/
-    layout/               # Header, Footer
-    map/                  # RailMap (dynamic import, SSR disabled)
-    projects/             # ProjectCard, Timeline
+    layout/                  # Header, Footer
+    map/                     # RailMap (dynamic import, SSR disabled)
+    projects/                # ProjectCard, Timeline, BudgetChart, ProjectDetail
+    seo/                     # JsonLd (Organization + WebSite)
   data/
-    stations.ts           # Rail lines, stations with coordinates
+    stations.ts              # Rail lines, stations, project-location markers
+    projects.ts              # Structured project meta: slug, costUsdM, category,
+                             #   rail-line + map-marker links, cost aggregations
   lib/
-    i18n.ts               # All translations (TR + EN)
-    locale-context.tsx     # React context for locale switching
-public/                   # Static assets
-docs/                     # Local docs (gitignored) — includes original brainstorm chat
+    i18n.ts                  # All translations (TR + EN), incl. common.* UI labels
+    locale-context.tsx       # Locale context: ?lang URL + localStorage persistence,
+                             #   <html lang> sync, setLocale/toggleLocale
+    project-detail-content.ts# Long-form bilingual detail copy (feasibility, etc.)
+    site.ts                  # SITE_URL, LOCALES, alternatesFor() (hreflang helper)
+public/
+  og-image.png               # 1200×630 social card
+  images/projects-hero.webp  # Illustrated projects hero (next/image static import)
+scripts/                     # SVG sources for the OG image + hero (rasterized via sharp/rsvg)
+docs/                        # Local docs (gitignored) — includes original brainstorm chat
+.github/workflows/ci.yml     # npm ci + lint + build on PRs and push to main
 ```
 
 ## Conventions
@@ -63,6 +78,29 @@ docs/                     # Local docs (gitignored) — includes original brains
 - Tourism: Karatas & Yumurtalik, Agroparks
 - Digital: ABB AI, Adakart, Technopark
 - Urban: Water/Drainage, Green Spaces, Bike Network, Disaster Prep
+
+Each project has a stable slug + structured metadata in `src/data/projects.ts`
+(`costUsdM` numeric estimate, category, linked rail lines + map markers) and a
+long-form bilingual detail page at `/projeler/[slug]` (content in
+`src/lib/project-detail-content.ts`). Slugs MUST stay stable (they are URLs in
+the sitemap). When adding/removing a project, keep these in sync: `i18n.ts`
+`projects` key ↔ `data/projects.ts` `i18nKey`/`slug` ↔
+`project-detail-content.ts` key.
+
+## i18n & SEO
+- **Locale** is resolved from `?lang=` → `localStorage` → `<html lang>` (default
+  `tr`), persisted on toggle, and kept in sync with `<html lang>` + the URL via
+  `src/lib/locale-context.tsx`. Use `useLocale()` for `locale`/`t`/`toggleLocale`
+  /`setLocale`.
+- **hreflang**: every route's metadata uses `alternatesFor(path)` from
+  `src/lib/site.ts`, pairing the TR (canonical) URL with its `?lang=en` twin
+  (`tr-TR` / `en-US` / `x-default`). `sitemap.ts` emits the same alternates for
+  all routes + detail pages.
+- **Structured data**: `Organization` + `WebSite` JSON-LD render site-wide
+  (`components/seo/json-ld.tsx`, included in root layout); each detail page adds
+  a `CreativeWork` block. JSON-LD is built from static, non-user data only.
+- **Counts are derived**, never hardcoded — from `railLines` / `projects` /
+  `t.projects`. Don't reintroduce literal "5 lines / 30+ stations" copy.
 
 ## Important Notes
 - This is NOT a political campaign site

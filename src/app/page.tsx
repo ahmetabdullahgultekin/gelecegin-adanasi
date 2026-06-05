@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useLocale } from "@/lib/locale-context";
 import ProjectCard from "@/components/projects/project-card";
 import Timeline from "@/components/projects/timeline";
+import BudgetChart from "@/components/projects/budget-chart";
 import { railLines } from "@/data/stations";
+import { totalNumericCostUsdM } from "@/data/projects";
 import { useEffect, useRef } from "react";
 
 const transportIcon = (
@@ -86,11 +88,10 @@ export default function HomePage() {
   const totalLines = railLines.length;
   const totalStations = railLines.reduce((n, l) => n + l.stations.length, 0);
 
-  // Display-only rough planning-horizon estimate in USD billions. Not
-  // computed from individual project costs (they're free-form strings like
-  // "~$300 million" / "Public-private partnership" — not summable). Update
-  // this figure manually when the data/i18n cost lines materially change.
-  const estimatedBudgetUSD = 3; // ≈ sum of the numeric cost estimates across all 14 projects
+  // Planning-horizon estimate in USD billions, DERIVED from the structured
+  // `costUsdM` fields in `data/projects.ts` (sum of fixed-capital estimates;
+  // PPP / multi-year programmes are excluded). Rounded to 1 decimal.
+  const estimatedBudgetUSD = Math.round(totalNumericCostUsdM() / 100) / 10;
   const budgetLabel = locale === "tr" ? "milyar USD planlama ufku" : "billion USD planning horizon";
 
   return (
@@ -327,6 +328,30 @@ export default function HomePage() {
         </section>
       ))}
 
+      {/* ─── Budget breakdown ─────────────────────────────────── */}
+      <section className="py-16 md:py-20 bg-[color:var(--paper-soft)]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="reveal mb-8 md:mb-10">
+            <div className="civic-chip mb-3">
+              {locale === "tr" ? "Veri" : "Data"}
+            </div>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-[color:var(--ink)] tracking-tight">
+              {locale === "tr"
+                ? "Sayılarla Yatırım"
+                : "Investment in Numbers"}
+            </h2>
+            <p className="mt-3 text-[color:var(--ink-muted)] max-w-2xl">
+              {locale === "tr"
+                ? `Toplam ~$${estimatedBudgetUSD} milyar tahmini sabit sermaye yatırımının kategorilere dağılımı. Tüm rakamlar fizibilite öncesi tahmindir.`
+                : `Distribution of the ~$${estimatedBudgetUSD} billion estimated fixed-capital investment across categories. All figures are pre-feasibility estimates.`}
+            </p>
+          </div>
+          <div className="reveal">
+            <BudgetChart />
+          </div>
+        </div>
+      </section>
+
       {/* ─── Timeline ────────────────────────────────────────── */}
       <section className="py-16 md:py-24 bg-[color:var(--paper)] bg-topo">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -371,14 +396,22 @@ export default function HomePage() {
               : "This platform is open source. Contribute findings, suggest improvements, or critique — join via GitHub. Every citizen's voice matters."}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-3">
-            <Link
-              href="/harita"
+            <a
+              href="https://github.com/ahmetabdullahgultekin/gelecegin-adanasi/issues/new?title=%5BG%C3%B6r%C3%BC%C5%9F%5D%20&body=Adana%20i%C3%A7in%20%C3%B6neriniz%2C%20eki%C5%9Ftiriniz%20veya%20veri%20d%C3%BCzeltmesi%3A%0A%0A"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-[color:var(--civic-800)] font-semibold rounded-full hover:bg-blue-50 transition-all hover:-translate-y-0.5"
             >
-              {t.hero.exploreMap}
+              {locale === "tr" ? "Görüş Bildir" : "Share Feedback"}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h11" />
               </svg>
+            </a>
+            <Link
+              href="/harita"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/30 bg-white/5 text-white font-semibold rounded-full hover:bg-white/10 transition-colors backdrop-blur-sm"
+            >
+              {t.hero.exploreMap}
             </Link>
             <a
               href="https://github.com/ahmetabdullahgultekin/gelecegin-adanasi"
@@ -392,6 +425,11 @@ export default function HomePage() {
               GitHub
             </a>
           </div>
+          <p className="mt-5 text-sm text-blue-200/70">
+            {locale === "tr"
+              ? "GitHub hesabı gerektirmeyen geri bildirim için her proje sayfasında \"Görüş Bildir\" bağlantısı vardır."
+              : "Each project page has a \"Share feedback\" link; no GitHub account is required to read or propose."}
+          </p>
           <p className="mt-8 text-xs text-white/50 font-mono">
             {locale === "tr"
               ? "Bu bir siyasi kampanya değildir. Siyasi bağ yok."
