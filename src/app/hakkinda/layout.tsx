@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { alternatesFor } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Hakkında",
@@ -15,9 +16,7 @@ export const metadata: Metadata = {
     description:
       "Geleceğin Adana'sı platformu hakkında. Bağımsız, veri odaklı şehir planlama vizyonu.",
   },
-  alternates: {
-    canonical: "/hakkinda",
-  },
+  alternates: alternatesFor("/hakkinda"),
 };
 
 export default function HakkindaLayout({

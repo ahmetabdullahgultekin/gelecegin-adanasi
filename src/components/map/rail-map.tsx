@@ -74,8 +74,10 @@ export default function RailMap() {
       {/* Filter controls */}
       <div className="mb-4 flex flex-wrap gap-2">
         <button
+          type="button"
           onClick={() => setShowRail(!showRail)}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+          aria-pressed={showRail}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 ${
             showRail
               ? "bg-gray-900 text-white border-gray-900"
               : "bg-white text-gray-500 border-gray-300"
@@ -84,8 +86,10 @@ export default function RailMap() {
           {locale === "tr" ? "Raylı Hatlar" : "Rail Lines"}
         </button>
         <button
+          type="button"
           onClick={() => setShowProjects(!showProjects)}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+          aria-pressed={showProjects}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 ${
             showProjects
               ? "bg-gray-900 text-white border-gray-900"
               : "bg-white text-gray-500 border-gray-300"
@@ -97,8 +101,19 @@ export default function RailMap() {
         {Object.entries(categoryLabels).map(([key, label]) => (
           <button
             key={key}
+            type="button"
             onClick={() => toggleCategory(key)}
-            className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+            aria-pressed={activeCategories.has(key)}
+            aria-label={`${locale === "tr" ? label.tr : label.en} ${
+              activeCategories.has(key)
+                ? locale === "tr"
+                  ? "(açık)"
+                  : "(on)"
+                : locale === "tr"
+                  ? "(kapalı)"
+                  : "(off)"
+            }`}
+            className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 ${
               activeCategories.has(key)
                 ? "text-white border-transparent"
                 : "bg-white text-gray-400 border-gray-200"

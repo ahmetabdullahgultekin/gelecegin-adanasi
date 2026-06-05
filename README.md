@@ -44,21 +44,41 @@ Bu platform, Adana'nın altyapı, ulaşım, turizm, tarım ve dijital dönüşü
 Akıncılar → Yüreğir Otogar → Optimum AVM → Yüreğir Devlet Hastanesi → Şehir Hastanesi & Stadyum → Çukurova Üni (Balcalı) → ABTÜ
 
 ### Hat 2: Ring Tramvay (Dairesel)
-Merkez Gar → Ziyapaşa → Valilik & Adliye → M1 AVM → Turgut Özal Blv → Barajyolu → Merkez Park → Taşköprü/Büyüksaat → Optimum → Merkez Gar
+Merkez Gar → Valilik → Ziyapaşa → İnönü → Taşköprü/Büyüksaat → Galleria → Merkez Park → Optimum → Barajyolu → Adliye → Merkez Gar
 
 ### Hat 3: ÇukurovaRay Banliyö
-- **Doğu-Batı**: Mersin → Tarsus → Yenice → Şakirpaşa → Merkez Gar → Yüreğir → İncirlik OSB → Ceyhan
-- **Kuzey**: Merkez Gar → Sarıçam OSB → İmamoğlu → Kozan
+- **Doğu-Batı (3a)**: Tarsus → Yenice → Şakirpaşa → Merkez Gar → Yüreğir → İncirlik → Yakapınar → Misis → Ceyhan
+- **Kuzey (3b)**: Merkez Gar → Buruk/TOKİ → Kürkçüler → Sarıçam OSB → Ceyhan Ovası → İmamoğlu → Kadirli Ayrımı → Kozan
 
 ### Hat 4: Mavi Hat (Sahil)
-Merkez Gar → Karataş Yolu → Doğankent → Karataş → Yumurtalık
+Merkez Gar → Küçükdikili → Havutlu → Tuzla → Doğankent → Bahçe → Akyatan Lagünü → Karataş
+
+### Hat 5: Yumurtalık Çatalı (Sahil)
+Ceyhan → Erzin Ayrımı → Yumurtalık
+
+> Güzergâhların kaynağı `src/data/stations.ts`'tir (6 hat / 49 durak). Sayılar
+> ve durak listeleri her zaman bu veriden türetilir.
+
+## Özellikler
+
+- **Bilingual (TR/EN)** — `?lang=` ile bağlanabilir/paylaşılabilir, seçim
+  `localStorage` ile kalıcı, `<html lang>` aktif dile senkron.
+- **Proje detay sayfaları** — her projenin `/projeler/[slug]` rotasında
+  fizibilite notu, yetki dağılımı, aşamalandırma, öne çıkanlar ve harita
+  bağlantıları (14 sayfa, statik üretim).
+- **SEO** — canonical + hreflang (her rota ve detay sayfası), iki dilli site
+  haritası, `Organization` / `WebSite` / `CreativeWork` JSON-LD, OG görseli.
+- **Veri görselleştirme** — kategoriye göre tahmini bütçe grafiği, tümü
+  `src/data/projects.ts`'teki sayısal alanlardan türetilir.
+- **Katılım** — GitHub hesabı gerektirmeyen "Görüş Bildir" bağlantıları.
 
 ## Teknoloji
 
-- **Frontend**: Next.js 16, TypeScript, Tailwind CSS 4
-- **Harita**: Leaflet.js + React-Leaflet (OpenStreetMap)
-- **i18n**: Türkçe (ana) + İngilizce
-- **Deploy**: Docker (standalone) + Traefik
+- **Frontend**: Next.js 16 (App Router) + React 19, TypeScript, Tailwind CSS 4
+- **Harita**: Leaflet.js + React-Leaflet (OpenStreetMap), Leaflet CSS self-hosted
+- **i18n**: Türkçe (ana) + İngilizce, URL + localStorage kalıcılığı
+- **CI**: GitHub Actions (lint + build) her PR'da
+- **Deploy**: Docker (standalone) + Traefik (Hetzner)
 
 ## Geliştirme
 

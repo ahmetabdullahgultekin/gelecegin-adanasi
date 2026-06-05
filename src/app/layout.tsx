@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "./client-layout";
+import JsonLd from "@/components/seo/json-ld";
+import { SITE_URL, alternatesFor } from "@/lib/site";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -42,10 +44,8 @@ export const metadata: Metadata = {
     "Yumurtalık",
     "ÇukurovaRay",
   ],
-  metadataBase: new URL("https://geleceginadanasi.com.tr"),
-  alternates: {
-    canonical: "/",
-  },
+  metadataBase: new URL(SITE_URL),
+  alternates: alternatesFor("/"),
   openGraph: {
     title: "Geleceğin Adana'sı",
     description:
@@ -94,6 +94,7 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <JsonLd />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
