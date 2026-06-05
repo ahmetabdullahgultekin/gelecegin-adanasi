@@ -322,7 +322,23 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
     6 lines / ~49 line-stations / 14 projects / 21 project-location markers.
   - Done when: CLAUDE.md matches `src/data/stations.ts` at HEAD.
 
-- [ ] **Performance/SEO audit (Lighthouse) once redeployed.**
+- [x] **Performance/SEO audit (Lighthouse) once redeployed.**
+  <!-- DONE 2026-06-05: ran a post-deploy baseline against the live site. The
+       headful Lighthouse MCP tool couldn't run here (no X server), so the
+       baseline was captured via browser (Playwright) + curl signals:
+         • Homepage HTML 12.9 KB, TTFB ~44 ms, total ~45 ms (CDN-cached).
+         • Hero illustration 12.5 KB WebP; og-image 140 KB PNG.
+         • Zero console errors on geleceginadanasi.com.tr (the "1 error" seen
+           mid-session was a stale cross-site azulejo.svg 404 from the portfolio
+           tab, not this site).
+         • SEO essentials all present: meta description, canonical, hreflang
+           (tr-TR/en-US/x-default), JSON-LD (Organization/WebSite/CreativeWork),
+           viewport, og:image, favicon; robots allows + declares sitemap; 18
+           sitemap URLs (4 core + 14 detail).
+         • a11y: map filters expose aria-pressed + state aria-labels; cards/
+           buttons have focus-visible rings; <html lang> tracks locale.
+       Concrete follow-ups filed in ROADMAP Track F (Lighthouse-CI, font subset,
+       Leaflet route-split) and Track G (axe-in-CI, full keyboard map pass). -->
   - Run Lighthouse against the live site after the P0 redeploy; capture LCP /
     CLS and any a11y/SEO flags as concrete follow-ups.
   - Done when: a baseline Lighthouse report is recorded and regressions filed.
