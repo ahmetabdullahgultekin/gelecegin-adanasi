@@ -1,9 +1,16 @@
 "use client";
 
 import { useLocale } from "@/lib/locale-context";
+import { railLines } from "@/data/stations";
 
 export default function AboutPage() {
   const { t } = useLocale();
+
+  // Derive stats from the data so they never drift from the source of truth.
+  const totalProjects = Object.keys(t.projects).length;
+  const totalLines = railLines.length;
+  const totalStations = railLines.reduce((n, l) => n + l.stations.length, 0);
+  const totalPhases = Object.keys(t.phases).length;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -72,10 +79,10 @@ export default function AboutPage() {
         {/* Stats */}
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { value: "14", label: "Proje / Projects" },
-            { value: "5", label: "Raylı Hat / Rail Lines" },
-            { value: "30+", label: "Durak / Stations" },
-            { value: "4", label: "Faz / Phases" },
+            { value: String(totalProjects), label: "Proje / Projects" },
+            { value: String(totalLines), label: "Raylı Hat / Rail Lines" },
+            { value: String(totalStations), label: "Durak / Stations" },
+            { value: String(totalPhases), label: "Faz / Phases" },
           ].map((stat, i) => (
             <div
               key={i}

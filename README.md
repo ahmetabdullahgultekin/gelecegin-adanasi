@@ -21,23 +21,22 @@ Bu platform, Adana'nın altyapı, ulaşım, turizm, tarım ve dijital dönüşü
 | # | Proje | Açıklama |
 |---|-------|----------|
 | 6 | Karataş & Yumurtalık Turizm | Sahil turizmi, ekoturizm, butik otelleşme |
-| 7 | Tarım İhtisas OSB (Agroparklar) | Katma değerli tarım ürünleri işleme tesisleri |
-| 8 | Akıllı Tarım Merkezi | Drone ilaçlama, AI toprak analizi, damla sulama |
+| 7 | Tarım İhtisas OSB (Agroparklar) | Katma değerli tarım ürünleri işleme tesisleri; akıllı tarım (drone ilaçlama, AI toprak analizi, damla sulama) entegrasyonu |
 
 ### Dijital Dönüşüm
 | # | Proje | Açıklama |
 |---|-------|----------|
-| 9 | ABB AI Dijital Çözüm Masası | RAG tabanlı vatandaş şikayet/talep platformu |
-| 10 | Adakart | NFC/QR akıllı kent kartı, tek bilet sistemi |
-| 11 | Yenilik ve İnovasyon Teknoparkı | Genç istihdam, startup ekosistemi |
+| 8 | ABB AI Dijital Çözüm Masası | RAG tabanlı vatandaş şikayet/talep platformu |
+| 9 | Adakart | NFC/QR akıllı kent kartı, tek bilet sistemi |
+| 10 | Yenilik ve İnovasyon Teknoparkı | Genç istihdam, startup ekosistemi |
 
 ### Kentsel Yaşam
 | # | Proje | Açıklama |
 |---|-------|----------|
-| 12 | Su ve Drenaj Altyapısı | Yağmur suyu, kanalizasyon modernizasyonu |
-| 13 | Yeşil Alan ve Park Sistemi | Seyhan Nehri kıyısı, gölge koridorları |
-| 14 | Bisiklet ve Yaya Ağları | Şehir geneli bisiklet şeridi altyapısı |
-| 15 | Afet Hazırlığı | Deprem master planı, kentsel dönüşüm |
+| 11 | Su ve Drenaj Altyapısı | Yağmur suyu, kanalizasyon modernizasyonu |
+| 12 | Yeşil Alan ve Park Sistemi | Seyhan Nehri kıyısı, gölge koridorları |
+| 13 | Bisiklet ve Yaya Ağları | Şehir geneli bisiklet şeridi altyapısı |
+| 14 | Afet Hazırlığı | Deprem master planı, kentsel dönüşüm |
 
 ## Raylı Sistem Haritası
 
