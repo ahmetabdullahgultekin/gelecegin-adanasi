@@ -4,7 +4,7 @@ import { useLocale } from "@/lib/locale-context";
 import { railLines } from "@/data/stations";
 
 export default function AboutPage() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
 
   // Derive stats from the data so they never drift from the source of truth.
   const totalProjects = Object.keys(t.projects).length;
@@ -98,9 +98,9 @@ export default function AboutPage() {
         <div className="mt-12 bg-amber-50 border border-amber-200 rounded-xl p-6">
           <p className="text-amber-800 text-sm">
             <strong>
-              {t.about.title === "Hakkında" ? "Sorumluluk Reddi" : "Disclaimer"}:
+              {locale === "tr" ? "Sorumluluk Reddi" : "Disclaimer"}:
             </strong>{" "}
-            {t.about.title === "Hakkında"
+            {locale === "tr"
               ? "Bu platformdaki tüm projeler öneri niteliğindedir. Tahmini maliyetler ve süre planlamaları gerçek fizibilite çalışmalarına dayanmamaktadır. Yetki alanı bilgileri genel bilgi amacıyla sunulmuştur."
               : "All projects on this platform are proposals. Estimated costs and timelines are not based on actual feasibility studies. Authority information is provided for general reference only."}
           </p>
