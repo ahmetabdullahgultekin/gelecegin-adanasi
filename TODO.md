@@ -11,7 +11,12 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
 
 ## P0 — Security / release hygiene (do first)
 
-- [ ] **Merge Dependabot security PR #3 (Next 16.2.3 → 16.2.6).**
+- [x] **Merge Dependabot security PR #3 (Next 16.2.3 → 16.2.6).**
+  <!-- DONE 2026-06-05: PR #3 squash-merged (origin/main fb6feec). package.json
+       next already 16.2.6 (bumped by the PR); also bumped eslint-config-next
+       16.2.2 → 16.2.6 so a fresh install can't reintroduce an old minor. Lock
+       resolves next@16.2.6 + eslint-config-next@16.2.6. -->
+
   - PR: `ahmetabdullahgultekin/gelecegin-adanasi#3` (branch
     `dependabot/npm_and_yarn/npm_and_yarn-152f59e559`). Verified state:
     `MERGEABLE` / `mergeStateStatus: CLEAN`, +41/−41 in `package-lock.json`.
@@ -26,7 +31,11 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
   - Done when: `gh pr view 3 -R ahmetabdullahgultekin/gelecegin-adanasi` shows
     `MERGED`, and `origin/main` `package-lock.json` resolves `next@16.2.6`.
 
-- [ ] **Sync local checkout to `origin/main`.**
+- [x] **Sync local checkout to `origin/main`.**
+  <!-- DONE 2026-06-05: local main fast-forwarded to origin/main, then reset to
+       fb6feec (post-#3). Plan docs cherry-picked. Exec work on
+       exec/p0-2026-06-05 off the synced main. -->
+
   - State: local working copy is on `feat/opus-redesign` (= `a4e9b99`); the
     redesign is already merged to `origin/main` at `627d5df` (merge of PR #2).
     Local `main` is **3 commits behind** `origin/main`.
@@ -51,7 +60,13 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
     `next` runtime is 16.2.6 (e.g. response headers / build manifest), and
     `https://geleceginadanasi.com.tr` returns 200 with the redesign UI.
 
-- [ ] **Create the Open Graph image at `public/og-image.png` (1200×630).**
+- [x] **Create the Open Graph image at `public/og-image.png` (1200×630).**
+  <!-- DONE 2026-06-05: public/og-image.png is a 1200×630 PNG (civic navy→teal
+       gradient, "Geleceğin Adana'sı" wordmark, eyebrow "ADANA · 10 YILLIK
+       VİZYON", tagline "Bağımsız · Veri odaklı · Toplum yararına", domain).
+       Reproducible source at scripts/og-image.svg (rsvg-convert). Ships under
+       public/ so the Dockerfile copies it. -->
+
   - Referenced but missing: `src/app/layout.tsx` `openGraph.images` and
     `twitter.images` both point at `/og-image.png`; the file does not exist
     (`public/` only has an empty `images/`). Social/link unfurls currently
@@ -66,7 +81,13 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
 
 ## P1 — Correctness, content integrity, build health
 
-- [ ] **Fix stale "5 lines / 30+ stations" copy to match the data (6 lines).**
+- [x] **Fix stale "5 lines / 30+ stations" copy to match the data (6 lines).**
+  <!-- DONE 2026-06-05: homepage rail-overview prose now interpolates
+       totalLines/totalStations (6 lines / 49 stations), TR+EN. hakkinda/page.tsx
+       stats grid now derives projects (Object.keys(t.projects)=14), lines
+       (railLines.length=6), stations (sum=49), phases (Object.keys(t.phases)=4)
+       — no more hardcoded "5"/"30+"/"14"/"4". -->
+
   - Truth in `src/data/stations.ts`: `railLines.length === 6`
     (m1-extension, ring-tram, cukurovaray-ew, cukurovaray-north, blue-line,
     yumurtalik-branch). Hardcoded "5 lines / 30+ stations" prose is wrong in:
@@ -79,12 +100,21 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
   - Done when: every user-visible line/station/project count is derived from
     `railLines` / `projectLocations` (or matches them), TR and EN both.
 
-- [ ] **Reconcile README project count (15) with the app (14).**
+- [x] **Reconcile README project count (15) with the app (14).**
+  <!-- DONE 2026-06-05: removed the standalone "Akıllı Tarım Merkezi" row
+       (folded its detail into the Agropark row, no content lost) and renumbered
+       8–15 → 8–14. README now lists 14 projects matching i18n's 14 keys. -->
+
   - `README.md` numbers projects 1–15 (splits "Akıllı Tarım Merkezi" out);
     `src/lib/i18n.ts` `projects` has 14 keys and the UI renders 14.
   - Done when: README and i18n agree on the canonical project list/count.
 
-- [ ] **Fix the ESLint error so `npm run lint` passes.**
+- [x] **Fix the ESLint error so `npm run lint` passes.**
+  <!-- DONE 2026-06-05: RailMap is loaded via dynamic(ssr:false) on the harita
+       page, so the outer `mounted` useEffect/setState gate was redundant.
+       Removed it and folded MapInner into RailMap (MapInner's own !components
+       guard already covers the client-only load). `npm run lint` exits 0. -->
+
   - `npm run lint` currently fails: `src/components/map/rail-map.tsx:30`
     `react-hooks/set-state-in-effect` — `setMounted(true)` called synchronously
     in a mount `useEffect`. (Next 16 / React 19 stricter rule.)
@@ -94,14 +124,22 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
     the sanctioned escape hatch.
   - Done when: `npm run lint` exits 0.
 
-- [ ] **Add a CI workflow (lint + build) gating PRs.**
+- [x] **Add a CI workflow (lint + build) gating PRs.**
+  <!-- DONE 2026-06-05: .github/workflows/ci.yml runs npm ci + npm run lint +
+       npm run build on pull_request and push to main (Node 22, npm cache,
+       read-only permissions, concurrency cancel-in-progress). -->
+
   - No `.github/workflows/` exists; Dependabot opens PRs with no checks, and
     lint regressions (above) ship undetected. Docker `next build` does not run
     `next lint` by default, so the lint error does not block the image.
   - Done when: a GitHub Actions workflow runs `npm ci`, `npm run lint`,
     `npm run build` on PRs to `main`, and is green on a test PR.
 
-- [ ] **Self-host Leaflet CSS instead of the unpkg CDN.**
+- [x] **Self-host Leaflet CSS instead of the unpkg CDN.**
+  <!-- DONE 2026-06-05: replaced the runtime <link> to unpkg.com with a static
+       `import "leaflet/dist/leaflet.css"` in rail-map.tsx (leaflet@^1.9.4 is
+       already a direct dep). No third-party request on the harita page. -->
+
   - `src/components/map/rail-map.tsx:~92` injects
     `https://unpkg.com/leaflet@1.9.4/dist/leaflet.css` at runtime. This is a
     third-party request on the map page (privacy + a single point of failure;
@@ -204,7 +242,11 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
     Project/landmark imagery (properly licensed) would raise credibility.
   - Done when: key sections use optimized `next/image` assets with alt text.
 
-- [ ] **Update `CLAUDE.md` data summary (5 lines/30+ stations/14 projects).**
+- [x] **Update `CLAUDE.md` data summary (5 lines/30+ stations/14 projects).**
+  <!-- DONE 2026-06-05: CLAUDE.md Key Data now says 6 lines / 49 stations with
+       correct per-line names + station counts, and a "source of truth" note
+       pointing at stations.ts / i18n.ts. -->
+
   - `CLAUDE.md` "Key Data" says 5 lines / 30+ stations / 14 projects; data is
     6 lines / ~49 line-stations / 14 projects / 21 project-location markers.
   - Done when: CLAUDE.md matches `src/data/stations.ts` at HEAD.
