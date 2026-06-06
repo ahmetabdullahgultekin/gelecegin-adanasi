@@ -1,0 +1,298 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "map": "Map",
+    "about": "About",
+    "language": "Türkçe"
+  },
+  "hero": {
+    "title": "Adana's Future",
+    "subtitle": "Independent, data-driven urban planning and vision platform",
+    "description": "Non-political, public-benefit platform offering realistic solutions for Adana's infrastructure, transportation, tourism, and digital transformation needs.",
+    "exploreMap": "Explore Map",
+    "viewProjects": "View Projects"
+  },
+  "sections": {
+    "transport": "Transportation & Infrastructure",
+    "tourism": "Tourism & Agriculture",
+    "digital": "Digital Transformation",
+    "urban": "Urban Living",
+    "timeline": "Timeline",
+    "railSystem": "Rail System Network"
+  },
+  "phases": {
+    "phase1": {
+      "title": "Phase 1: First 100 Days",
+      "period": "0-1 Year",
+      "items": [
+        "M1 metro extension feasibility study",
+        "Adakart pilot program",
+        "ABB AI platform MVP",
+        "Bike lane pilot zone"
+      ]
+    },
+    "phase2": {
+      "title": "Phase 2: Foundation",
+      "period": "1-3 Years",
+      "items": [
+        "Ring tram construction start",
+        "New terminal project",
+        "Karatas coastal development",
+        "Agropark feasibility"
+      ]
+    },
+    "phase3": {
+      "title": "Phase 3: Growth",
+      "period": "3-5 Years",
+      "items": [
+        "CukurovaRay commuter (with TCDD)",
+        "Technopark opening",
+        "Tourism infrastructure completion",
+        "Smart agriculture center"
+      ]
+    },
+    "phase4": {
+      "title": "Phase 4: Maturity",
+      "period": "5-10 Years",
+      "items": [
+        "Blue Line coastal express",
+        "Full network integration",
+        "International tourism brand",
+        "Fully digital municipality"
+      ]
+    }
+  },
+  "projects": {
+    "m1Extension": {
+      "title": "M1 Metro Extension",
+      "description": "North-south metro corridor from Akincilar to ABTU. Connects education and healthcare centers.",
+      "type": "Underground Metro",
+      "cost": "~$1 billion",
+      "authority": "Municipality + Ministry"
+    },
+    "ringTram": {
+      "title": "City Center Ring Tram",
+      "description": "Light rail system circling the city center from Central Station. Connects malls, government offices, and tourist spots.",
+      "type": "Light Rail",
+      "cost": "~$300 million",
+      "authority": "Municipality"
+    },
+    "cukurovaRay": {
+      "title": "CukurovaRay Commuter Rail",
+      "description": "Rehabilitation of existing TCDD lines for east-west (Mersin-Adana-Ceyhan) and north (Adana-Kozan) commuter rail.",
+      "type": "Commuter Train",
+      "cost": "~$500 million",
+      "authority": "TCDD + Ministry"
+    },
+    "blueLineExpress": {
+      "title": "Blue Line Coastal Express",
+      "description": "Non-stop service from Adana center to Karatas and Yumurtalik beaches. Starting as express bus, converting to rail on demand.",
+      "type": "Express / Light Rail",
+      "cost": "~$150 million",
+      "authority": "Municipality"
+    },
+    "smartTerminal": {
+      "title": "New Smart Bus Terminal",
+      "description": "Modern transfer hub with rail system integration, solar power, and smart traffic management.",
+      "type": "Logistics Hub",
+      "cost": "~$200 million",
+      "authority": "Municipality"
+    },
+    "tourism": {
+      "title": "Karatas & Yumurtalik Tourism",
+      "description": "Karatas: Water sports, eco-tourism, resorts. Yumurtalik: Ayas Ancient City, boutique hotels, gastronomy tourism. Akyatan Lagoon eco-tourism.",
+      "type": "Tourism Development",
+      "cost": "Public-private partnership",
+      "authority": "Municipality + Ministry of Culture"
+    },
+    "agropark": {
+      "title": "Agricultural Specialized Industrial Zone",
+      "description": "Value-added agricultural processing facilities in Ceyhan-Yuregir plains. Citrus, cotton, food packaging.",
+      "type": "Industrial Zone",
+      "cost": "~$400 million",
+      "authority": "Ministry of Industry + Municipality"
+    },
+    "abbAI": {
+      "title": "ABB AI Digital Service Desk",
+      "description": "AI-powered citizen complaint, petition, and request platform. Automatic classification and routing with RAG architecture.",
+      "type": "Digital Platform",
+      "cost": "~$5 million",
+      "authority": "Municipality"
+    },
+    "adakart": {
+      "title": "Adakart Smart City Card",
+      "description": "NFC and QR-enabled single ticket system. Public transport, parking, and municipal services on one card.",
+      "type": "Digital Infrastructure",
+      "cost": "~$20 million",
+      "authority": "Municipality"
+    },
+    "technopark": {
+      "title": "Innovation Technopark",
+      "description": "Youth employment, startup ecosystem, university-industry collaboration. Focus on software, agtech, and AI.",
+      "type": "Technology Center",
+      "cost": "~$100 million",
+      "authority": "Municipality + YOK + Ministry of Industry"
+    },
+    "waterInfra": {
+      "title": "Water & Drainage Infrastructure",
+      "description": "Stormwater drainage renewal, reducing water leakage rate, sewage modernization.",
+      "type": "Infrastructure",
+      "cost": "~$300 million",
+      "authority": "ASKI + Municipality"
+    },
+    "greenSpaces": {
+      "title": "Green Spaces & Parks",
+      "description": "Seyhan River waterfront landscape transformation, shade corridors, increasing per-capita green space.",
+      "type": "Urban Transformation",
+      "cost": "~$50 million",
+      "authority": "Municipality"
+    },
+    "bikeNetwork": {
+      "title": "Bicycle & Pedestrian Networks",
+      "description": "City-wide bike lanes, pedestrian-priority zones, bike-sharing system.",
+      "type": "Transport Infrastructure",
+      "cost": "~$30 million",
+      "authority": "Municipality"
+    },
+    "disasterPrep": {
+      "title": "Disaster Preparedness",
+      "description": "Earthquake master plan, urban renewal, early warning systems, assembly areas.",
+      "type": "Safety",
+      "cost": "Multi-year budget",
+      "authority": "AFAD + Municipality"
+    }
+  },
+  "about": {
+    "title": "About",
+    "description": "This platform aims to present an independent, data-driven, public-benefit vision for Adana's future. It has no affiliation with any political party or movement.",
+    "mission": "Mission",
+    "missionText": "To produce realistic solutions for Adana's chronic problems through engineering discipline and data-driven approaches.",
+    "values": "Values",
+    "valuesList": [
+      "Independence — No political ties",
+      "Realism — Feasible projects",
+      "Transparency — Open data and budgets",
+      "Participation — Citizen feedback"
+    ]
+  },
+  "footer": {
+    "description": "Public-benefit, independent urban planning platform.",
+    "rights": "All rights reserved.",
+    "openSource": "Open source project"
+  },
+  "common": {
+    "learnMore": "Learn More",
+    "cost": "Estimated Cost",
+    "authority": "Authority",
+    "type": "Type",
+    "phase": "Phase",
+    "back": "Back",
+    "allProjects": "All Projects",
+    "onMap": "View on Map",
+    "overview": "Overview",
+    "feasibility": "Feasibility & Notes",
+    "authoritySplit": "Authority Breakdown",
+    "phasing": "Phasing",
+    "relatedLines": "Related Rail Lines",
+    "keyLocations": "Key Locations",
+    "highlights": "Highlights",
+    "relatedProjects": "Related Projects",
+    "stations": "stations",
+    "shareFeedback": "Share feedback on this project"
+  },
+  "ui": {
+    "eyebrow": "Independent · Data-driven · Public-benefit",
+    "stats": {
+      "projects": "Projects",
+      "railLines": "Rail Lines",
+      "stations": "Stations",
+      "budget": "billion USD planning horizon"
+    },
+    "values": [
+      "Independent",
+      "Data-driven",
+      "Public-benefit",
+      "Open source",
+      "Non-political"
+    ],
+    "rail": {
+      "chip": "Transit",
+      "subtitle": "{lines} lines, {stations} stations. Metro, light rail, commuter, and tourism express — an integrated urban and regional rail proposal.",
+      "seeOnMap": "See on map",
+      "stationsLabel": "Stations"
+    },
+    "projectsCountLabel": "projects",
+    "budget": {
+      "chip": "Data",
+      "heading": "Investment in Numbers",
+      "subtitle": "Distribution of the ~${budget} billion estimated fixed-capital investment across categories. All figures are pre-feasibility estimates.",
+      "chartHeading": "Estimated Budget by Category",
+      "chartNote": "Only projects with a fixed capital-cost estimate are summed. Public-private partnerships and multi-year programme budgets are excluded. Figures are pre-feasibility estimates."
+    },
+    "timeline": {
+      "chip": "10-year horizon",
+      "subtitle": "From the first 100 days to year ten — staged, measurable, and implementable planning."
+    },
+    "cta": {
+      "heading": "Let's Plan Adana's Future Together",
+      "body": "This platform is open source. Contribute findings, suggest improvements, or critique — join via GitHub. Every citizen's voice matters.",
+      "feedback": "Share Feedback",
+      "note": "Each project page has a \"Share feedback\" link; no GitHub account is required to read or propose.",
+      "notPolitical": "This is not a political campaign. No political affiliation."
+    },
+    "projectsPage": {
+      "heroAlt": "Illustration of the Adana skyline and Çukurova delta with a rail-system motif",
+      "subtitle": "14 proposed projects for Adana with estimated costs and authority scope. Click any card for the full detail page."
+    },
+    "map": {
+      "title": "Adana Vision Map",
+      "subtitle": "Explore rail lines and all project locations on the interactive map. Use filters to view by category.",
+      "railLinesHeading": "Rail System Lines",
+      "categoriesHeading": "Project Categories",
+      "railLinesToggle": "Rail Lines",
+      "projectsToggle": "Projects",
+      "loading": "Loading map...",
+      "on": "(on)",
+      "off": "(off)"
+    },
+    "categories": {
+      "hub": "Transfer Hub",
+      "transport": "Transport",
+      "tourism": "Tourism",
+      "agriculture": "Agriculture",
+      "digital": "Digital",
+      "urban": "Urban Living"
+    },
+    "detailCategories": {
+      "transport": "Transport",
+      "tourism": "Tourism & Agriculture",
+      "digital": "Digital",
+      "urban": "Urban Living"
+    },
+    "budgetCategories": {
+      "transport": "Transport",
+      "tourism": "Tourism & Agriculture",
+      "digital": "Digital",
+      "urban": "Urban"
+    },
+    "about": {
+      "disclaimerLabel": "Disclaimer",
+      "disclaimerText": "All projects on this platform are proposals. Estimated costs and timelines are not based on actual feasibility studies. Authority information is provided for general reference only."
+    },
+    "footer": {
+      "tagline": "Urban Planning",
+      "badges": [
+        "Independent",
+        "Open source",
+        "Non-political"
+      ],
+      "navigation": "Navigation",
+      "contribute": "Contribute",
+      "suggest": "Suggest / critique",
+      "notPolitical": "This is not a political campaign. No political affiliation."
+    },
+    "authorityShort": "Authority:",
+    "readInOther": "Türkçe oku →"
+  }
+}

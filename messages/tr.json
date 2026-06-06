@@ -1,0 +1,298 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "projects": "Projeler",
+    "map": "Harita",
+    "about": "Hakkında",
+    "language": "English"
+  },
+  "hero": {
+    "title": "Geleceğin Adana'sı",
+    "subtitle": "Bağımsız, veri odaklı şehir planlama ve vizyon platformu",
+    "description": "Siyasetten bağımsız, toplum yararına, Adana'nın altyapı, ulaşım, turizm ve dijital dönüşüm ihtiyaçlarına gerçekçi çözüm önerileri.",
+    "exploreMap": "Haritayı Keşfet",
+    "viewProjects": "Projeleri İncele"
+  },
+  "sections": {
+    "transport": "Ulaşım ve Altyapı",
+    "tourism": "Turizm ve Tarım",
+    "digital": "Dijital Dönüşüm",
+    "urban": "Kentsel Yaşam",
+    "timeline": "Zaman Çizelgesi",
+    "railSystem": "Raylı Sistem Ağı"
+  },
+  "phases": {
+    "phase1": {
+      "title": "Faz 1: İlk 100 Gün",
+      "period": "0-1 Yıl",
+      "items": [
+        "M1 metro uzatması fizibilite çalışması",
+        "Adakart pilot uygulaması",
+        "ABB AI platformu MVP",
+        "Bisiklet şeridi pilot bölge"
+      ]
+    },
+    "phase2": {
+      "title": "Faz 2: Temel Atma",
+      "period": "1-3 Yıl",
+      "items": [
+        "Ring tramvay inşaat başlangıcı",
+        "Yeni otogar projesi",
+        "Karataş sahil düzenlemesi",
+        "Agropark fizibilite"
+      ]
+    },
+    "phase3": {
+      "title": "Faz 3: Büyüme",
+      "period": "3-5 Yıl",
+      "items": [
+        "ÇukurovaRay banliyö (TCDD ile)",
+        "Teknopark açılışı",
+        "Turizm altyapısı tamamlanması",
+        "Akıllı tarım merkezi"
+      ]
+    },
+    "phase4": {
+      "title": "Faz 4: Olgunlaşma",
+      "period": "5-10 Yıl",
+      "items": [
+        "Mavi Hat sahil ekspresi",
+        "Tüm hatların entegrasyonu",
+        "Uluslararası turizm markası",
+        "Tam dijital belediye"
+      ]
+    }
+  },
+  "projects": {
+    "m1Extension": {
+      "title": "M1 Metro Uzatması",
+      "description": "Akıncılar'dan ABTÜ'ye uzanan kuzey-güney metro koridoru. Eğitim ve sağlık merkezlerini birbirine bağlar.",
+      "type": "Yeraltı Metro",
+      "cost": "~1 milyar USD",
+      "authority": "Belediye + Bakanlık"
+    },
+    "ringTram": {
+      "title": "Şehir İçi Ring Tramvay",
+      "description": "Merkez Gar'dan başlayıp şehrin kalbinde dairesel rota çizen hafif raylı sistem. AVM, devlet kurumları ve turistik noktaları bağlar.",
+      "type": "Hafif Raylı",
+      "cost": "~300 milyon USD",
+      "authority": "Belediye"
+    },
+    "cukurovaRay": {
+      "title": "ÇukurovaRay Banliyö",
+      "description": "Mevcut TCDD hatlarının rehabilitasyonu ile Mersin-Adana-Ceyhan doğu-batı ve Adana-Kozan kuzey banliyö hattı.",
+      "type": "Banliyö Treni",
+      "cost": "~500 milyon USD",
+      "authority": "TCDD + Bakanlık"
+    },
+    "blueLineExpress": {
+      "title": "Mavi Hat Sahil Ekspresi",
+      "description": "Adana merkezden Karataş ve Yumurtalık sahillerine kesintisiz ulaşım. Başlangıçta ekspres otobüs, talebe göre raylıya dönüşüm.",
+      "type": "Ekspres / Hafif Raylı",
+      "cost": "~150 milyon USD",
+      "authority": "Belediye"
+    },
+    "smartTerminal": {
+      "title": "Yeni Akıllı Otogar",
+      "description": "Raylı sistem entegrasyonlu, güneş enerjili, akıllı trafik yönetimli modern transfer merkezi.",
+      "type": "Lojistik Hub",
+      "cost": "~200 milyon USD",
+      "authority": "Belediye"
+    },
+    "tourism": {
+      "title": "Karataş & Yumurtalık Turizm",
+      "description": "Karataş: Su sporları, ekoturizm, resort. Yumurtalık: Ayas Antik Kenti, butik otel, gastronomi turizmi. Akyatan Lagünü ekoturizm.",
+      "type": "Turizm Geliştirme",
+      "cost": "Kamu-özel ortaklığı",
+      "authority": "Belediye + Kültür Bakanlığı"
+    },
+    "agropark": {
+      "title": "Tarım İhtisas OSB (Agroparklar)",
+      "description": "Ceyhan-Yüreğir düzlüklerinde katma değerli tarım ürünleri işleme tesisleri. Narenciye, pamuk, gıda paketleme.",
+      "type": "Organize Sanayi",
+      "cost": "~400 milyon USD",
+      "authority": "Sanayi Bakanlığı + Belediye"
+    },
+    "abbAI": {
+      "title": "ABB AI Dijital Çözüm Masası",
+      "description": "Yapay zeka destekli vatandaş şikayet, dilekçe ve talep platformu. RAG mimarisi ile otomatik sınıflandırma ve yönlendirme.",
+      "type": "Dijital Platform",
+      "cost": "~5 milyon USD",
+      "authority": "Belediye"
+    },
+    "adakart": {
+      "title": "Adakart Akıllı Kent Kartı",
+      "description": "NFC ve QR destekli tek bilet sistemi. Toplu taşıma, otopark, belediye hizmetleri tek kartta.",
+      "type": "Dijital Altyapı",
+      "cost": "~20 milyon USD",
+      "authority": "Belediye"
+    },
+    "technopark": {
+      "title": "Yenilik ve İnovasyon Teknopark",
+      "description": "Genç istihdam, startup ekosistemi, üniversite-sanayi iş birliği. Yazılım, tarım teknolojisi, yapay zeka odaklı.",
+      "type": "Teknoloji Merkezi",
+      "cost": "~100 milyon USD",
+      "authority": "Belediye + YÖK + Sanayi Bakanlığı"
+    },
+    "waterInfra": {
+      "title": "Su ve Drenaj Altyapısı",
+      "description": "Yağmur suyu drenaj sistemi yenileme, su kaçak oranını düşürme, kanalizasyon modernizasyonu.",
+      "type": "Altyapı",
+      "cost": "~300 milyon USD",
+      "authority": "ASKİ + Belediye"
+    },
+    "greenSpaces": {
+      "title": "Yeşil Alan ve Park Sistemi",
+      "description": "Seyhan Nehri kıyısı peyzaj dönüşümü, gölge koridorları, kişi başı yeşil alan artışı.",
+      "type": "Kentsel Dönüşüm",
+      "cost": "~50 milyon USD",
+      "authority": "Belediye"
+    },
+    "bikeNetwork": {
+      "title": "Bisiklet ve Yaya Ağları",
+      "description": "Şehir geneli bisiklet şeridi, yaya öncelikli bölgeler, paylaşımlı bisiklet sistemi.",
+      "type": "Ulaşım Altyapısı",
+      "cost": "~30 milyon USD",
+      "authority": "Belediye"
+    },
+    "disasterPrep": {
+      "title": "Afet Hazırlığı",
+      "description": "Deprem master planı, kentsel dönüşüm, erken uyarı sistemleri, toplanma alanları.",
+      "type": "Güvenlik",
+      "cost": "Çok yıllı bütçe",
+      "authority": "AFAD + Belediye"
+    }
+  },
+  "about": {
+    "title": "Hakkında",
+    "description": "Bu platform, Adana'nın geleceğine dair bağımsız, veri odaklı ve toplum yararına bir vizyon sunmayı amaçlar. Herhangi bir siyasi parti veya hareketle bağlantısı yoktur.",
+    "mission": "Misyon",
+    "missionText": "Adana'nın kronik sorunlarına mühendislik disiplini ve veri odaklı yaklaşımla gerçekçi çözümler üretmek.",
+    "values": "Değerler",
+    "valuesList": [
+      "Bağımsızlık — Siyasi bağ yok",
+      "Gerçekçilik — Uygulanabilir projeler",
+      "Şeffaflık — Açık veri ve bütçeler",
+      "Katılımcılık — Vatandaş geri bildirimi"
+    ]
+  },
+  "footer": {
+    "description": "Toplum yararına, bağımsız şehir planlama platformu.",
+    "rights": "Tüm hakları saklıdır.",
+    "openSource": "Açık kaynak proje"
+  },
+  "common": {
+    "learnMore": "Detaylı İncele",
+    "cost": "Tahmini Maliyet",
+    "authority": "Yetki",
+    "type": "Tür",
+    "phase": "Faz",
+    "back": "Geri",
+    "allProjects": "Tüm Projeler",
+    "onMap": "Haritada Gör",
+    "overview": "Genel Bakış",
+    "feasibility": "Fizibilite ve Notlar",
+    "authoritySplit": "Yetki Dağılımı",
+    "phasing": "Aşamalandırma",
+    "relatedLines": "İlgili Raylı Hatlar",
+    "keyLocations": "Anahtar Lokasyonlar",
+    "highlights": "Öne Çıkanlar",
+    "relatedProjects": "İlgili Projeler",
+    "stations": "durak",
+    "shareFeedback": "Bu proje hakkında görüş bildir"
+  },
+  "ui": {
+    "eyebrow": "Bağımsız · Veri odaklı · Toplum yararına",
+    "stats": {
+      "projects": "Proje",
+      "railLines": "Raylı Hat",
+      "stations": "Durak",
+      "budget": "milyar USD planlama ufku"
+    },
+    "values": [
+      "Bağımsız",
+      "Veri odaklı",
+      "Toplum yararına",
+      "Açık kaynak",
+      "Siyasetten bağımsız"
+    ],
+    "rail": {
+      "chip": "Ulaşım",
+      "subtitle": "{lines} hat, {stations} durak. Metro, hafif raylı, banliyö ve turizm ekspresi — entegre şehir içi ve bölgesel raylı sistem önerileri.",
+      "seeOnMap": "Haritada gör",
+      "stationsLabel": "Duraklar"
+    },
+    "projectsCountLabel": "proje",
+    "budget": {
+      "chip": "Veri",
+      "heading": "Sayılarla Yatırım",
+      "subtitle": "Toplam ~${budget} milyar tahmini sabit sermaye yatırımının kategorilere dağılımı. Tüm rakamlar fizibilite öncesi tahmindir.",
+      "chartHeading": "Kategoriye Göre Tahmini Bütçe",
+      "chartNote": "Yalnızca sabit sermaye maliyeti tahmini olan projeler toplanmıştır. Kamu-özel ortaklığı ve çok yıllı program bütçeleri hariçtir. Rakamlar fizibilite öncesi tahminlerdir."
+    },
+    "timeline": {
+      "chip": "10 yıllık ufuk",
+      "subtitle": "İlk 100 günden onuncu yıla — aşamalı, ölçülebilir ve uygulanabilir planlama."
+    },
+    "cta": {
+      "heading": "Adana'nın Geleceğini Birlikte Planlayalım",
+      "body": "Bu platform açık kaynaklıdır. Bulgulara katkıda bulunmak, öneri yapmak veya eleştirmek için GitHub üzerinden katılın. Her vatandaşın sesi önemlidir.",
+      "feedback": "Görüş Bildir",
+      "note": "GitHub hesabı gerektirmeyen geri bildirim için her proje sayfasında \"Görüş Bildir\" bağlantısı vardır.",
+      "notPolitical": "Bu bir siyasi kampanya değildir. Siyasi bağ yok."
+    },
+    "projectsPage": {
+      "heroAlt": "Adana silüeti ve Çukurova deltası illüstrasyonu — raylı sistem motifi",
+      "subtitle": "Adana için önerilen 14 proje; tahmini maliyetleri ve yetki alanlarıyla. Her karta tıklayarak detaylı incelemeye geçin."
+    },
+    "map": {
+      "title": "Adana Vizyon Haritası",
+      "subtitle": "Raylı sistem hatları ve tüm proje lokasyonlarını interaktif harita üzerinde keşfedin. Filtreleri kullanarak kategorilere göre görüntüleyin.",
+      "railLinesHeading": "Raylı Sistem Hatları",
+      "categoriesHeading": "Proje Kategorileri",
+      "railLinesToggle": "Raylı Hatlar",
+      "projectsToggle": "Projeler",
+      "loading": "Harita yükleniyor...",
+      "on": "(açık)",
+      "off": "(kapalı)"
+    },
+    "categories": {
+      "hub": "Transfer Merkezi",
+      "transport": "Ulaşım",
+      "tourism": "Turizm",
+      "agriculture": "Tarım",
+      "digital": "Dijital",
+      "urban": "Kentsel Yaşam"
+    },
+    "detailCategories": {
+      "transport": "Ulaşım",
+      "tourism": "Turizm ve Tarım",
+      "digital": "Dijital",
+      "urban": "Kentsel Yaşam"
+    },
+    "budgetCategories": {
+      "transport": "Ulaşım",
+      "tourism": "Turizm ve Tarım",
+      "digital": "Dijital",
+      "urban": "Kentsel"
+    },
+    "about": {
+      "disclaimerLabel": "Sorumluluk Reddi",
+      "disclaimerText": "Bu platformdaki tüm projeler öneri niteliğindedir. Tahmini maliyetler ve süre planlamaları gerçek fizibilite çalışmalarına dayanmamaktadır. Yetki alanı bilgileri genel bilgi amacıyla sunulmuştur."
+    },
+    "footer": {
+      "tagline": "Şehir Planlama",
+      "badges": [
+        "Bağımsız",
+        "Açık kaynak",
+        "Siyasetten bağımsız"
+      ],
+      "navigation": "Gezinme",
+      "contribute": "Katılın",
+      "suggest": "Öneri / eleştiri",
+      "notPolitical": "Bu bir siyasi kampanya değildir. Siyasi bağ yok."
+    },
+    "authorityShort": "Yetki:",
+    "readInOther": "Read in English →"
+  }
+}

@@ -9,7 +9,9 @@ Goal: Present data-driven, realistic infrastructure proposals for public benefit
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS 4
 - **Map**: Leaflet.js + React-Leaflet (OpenStreetMap)
-- **i18n**: Custom context-based TR/EN with full Turkish character support
+- **i18n**: `next-intl` with `[locale]` path routing (`localePrefix: "as-needed"`)
+  — TR (default) at `/`, EN at `/en/...`; server-rendered per locale with full
+  Turkish character support
 - **Deployment**: Docker (standalone output) + Traefik reverse proxy on Hetzner CX43
 - **Package Manager**: npm
 - **Port**: 3007 (mapped to internal 3000)
@@ -17,32 +19,42 @@ Goal: Present data-driven, realistic infrastructure proposals for public benefit
 ## Project Structure
 ```
 src/
+  i18n/                      # next-intl config (single source for locale routing)
+    routing.ts               # locales ['tr','en'], defaultLocale 'tr', as-needed
+    request.ts               # getRequestConfig: loads messages/<locale>.json
+    navigation.ts            # locale-aware Link / usePathname / getPathname
+  proxy.ts                   # next-intl proxy (was middleware.ts): locale negotiation
   app/                       # Next.js App Router pages
-    layout.tsx               # Root layout: metadata, hreflang alternates, JSON-LD
-    page.tsx                 # Landing / hero page (+ budget chart, CTA)
-    client-layout.tsx        # Client layout (LocaleProvider + Header/Footer)
-    sitemap.ts               # Bilingual sitemap (hreflang + all detail pages)
-    robots.ts                # robots.txt
-    projeler/page.tsx        # All projects listing (illustrated hero)
-    projeler/[slug]/page.tsx # Per-project detail (SSG, generateStaticParams)
-    harita/page.tsx          # Interactive map with Leaflet
-    hakkinda/page.tsx        # About page (stats derived from data)
-    {route}/layout.tsx       # Per-route metadata + alternatesFor()
+    layout.tsx               # Root layout: minimal passthrough (imports globals.css)
+    [locale]/layout.tsx      # Document shell: <html lang={locale}>, fonts, JSON-LD,
+                             #   generateMetadata (localized), NextIntlClientProvider,
+                             #   generateStaticParams (tr + en), setRequestLocale
+    [locale]/page.tsx        # Landing / hero page (+ budget chart, CTA)
+    client-layout.tsx        # Client chrome (Header/Footer); provider lives in [locale]
+    sitemap.ts               # Bilingual sitemap (NOT locale-prefixed; getPathname)
+    robots.ts                # robots.txt (NOT locale-prefixed)
+    [locale]/projeler/page.tsx        # All projects listing (illustrated hero)
+    [locale]/projeler/[slug]/page.tsx # Per-project detail (SSG × 2 locales)
+    [locale]/harita/page.tsx          # Interactive map with Leaflet
+    [locale]/hakkinda/page.tsx        # About page (stats derived from data)
+    [locale]/{route}/layout.tsx       # Per-route generateMetadata + alternatesFor()
   components/
-    layout/                  # Header, Footer
+    layout/                  # Header (lang toggle = Link to other locale), Footer
     map/                     # RailMap (dynamic import, SSR disabled)
     projects/                # ProjectCard, Timeline, BudgetChart, ProjectDetail
     seo/                     # JsonLd (Organization + WebSite)
   data/
-    stations.ts              # Rail lines, stations, project-location markers
+    stations.ts              # Rail lines, stations, project-location markers (+*En)
     projects.ts              # Structured project meta: slug, costUsdM, category,
                              #   rail-line + map-marker links, cost aggregations
   lib/
-    i18n.ts                  # All translations (TR + EN), incl. common.* UI labels
-    locale-context.tsx       # Locale context: ?lang URL + localStorage persistence,
-                             #   <html lang> sync, setLocale/toggleLocale
+    i18n.ts                  # Re-exports messages/{tr,en}.json as typed maps for
+                             #   server code (metadata/JSON-LD); + Locale type
     project-detail-content.ts# Long-form bilingual detail copy (feasibility, etc.)
-    site.ts                  # SITE_URL, LOCALES, alternatesFor() (hreflang helper)
+    site.ts                  # SITE_URL, LOCALES, async alternatesFor() (hreflang)
+messages/
+  tr.json / en.json          # next-intl catalogs (source of truth, same keys);
+                             #   `ui.*` namespace holds former inline UI strings
 public/
   og-image.png               # 1200×630 social card
   images/projects-hero.webp  # Illustrated projects hero (next/image static import)
@@ -53,7 +65,7 @@ docs/                        # Local docs (gitignored) — includes original bra
 
 ## Conventions
 - All user-facing content in **Turkish** (with proper characters: ş, ç, ğ, ı, ö, ü, İ)
-- English translation available via locale toggle
+- English translation available via locale toggle (links to the `/en` URL)
 - Code (variables, comments, commits) in **English**
 - Component names: PascalCase
 - File names: kebab-case for pages, PascalCase for components
@@ -88,19 +100,36 @@ the sitemap). When adding/removing a project, keep these in sync: `i18n.ts`
 `project-detail-content.ts` key.
 
 ## i18n & SEO
-- **Locale** is resolved from `?lang=` → `localStorage` → `<html lang>` (default
-  `tr`), persisted on toggle, and kept in sync with `<html lang>` + the URL via
-  `src/lib/locale-context.tsx`. Use `useLocale()` for `locale`/`t`/`toggleLocale`
-  /`setLocale`.
-- **hreflang**: every route's metadata uses `alternatesFor(path)` from
-  `src/lib/site.ts`, pairing the TR (canonical) URL with its `?lang=en` twin
-  (`tr-TR` / `en-US` / `x-default`). `sitemap.ts` emits the same alternates for
-  all routes + detail pages.
+- **Routing** uses `next-intl` `[locale]` path routing with
+  `localePrefix: "as-needed"` (`src/i18n/routing.ts`): Turkish (default/canonical)
+  stays at the bare path (`/`, `/projeler/...`), English is served under `/en/...`.
+  `/tr/...` 307-redirects to the bare path so TR canonicals never carry a prefix.
+  Each language is **server-rendered at its own crawlable URL** (closes the old
+  `?lang=en` JS-gated SEO gap).
+- **Translations** live in `messages/tr.json` + `messages/en.json` (same keys;
+  source of truth). In Client/Server Components use next-intl hooks:
+  `useTranslations()` → `t("nav.home")`, `t.raw("about.valuesList")` for arrays,
+  `useLocale()` for the active locale code. Always import `Link`/`usePathname`
+  from `@/i18n/navigation`, never `next/link` / `next/navigation`. The language
+  toggle is a `<Link href={pathname} locale={otherLocale}>` (preserves the page).
+  Server code that needs raw strings (metadata, JSON-LD) reads `translations`
+  from `src/lib/i18n.ts` (a typed re-export of the JSON catalogs).
+- **hreflang**: every route's `generateMetadata` uses `await alternatesFor(href,
+  locale)` from `src/lib/site.ts` (async — it calls `getPathname`), pairing the
+  TR (`/...`) and EN (`/en/...`) URLs (`tr-TR` / `en-US` / `x-default`=TR) and
+  setting `canonical` to the rendered locale's URL. `sitemap.ts` emits the same
+  alternates for all routes + 14 detail pages (TR canonical, EN twin).
+- **Localized metadata**: `<title>`/description/OG are served per-locale (EN copy
+  on `/en`, TR copy on `/`).
 - **Structured data**: `Organization` + `WebSite` JSON-LD render site-wide
-  (`components/seo/json-ld.tsx`, included in root layout); each detail page adds
-  a `CreativeWork` block. JSON-LD is built from static, non-user data only.
+  (`components/seo/json-ld.tsx`, included in the `[locale]` layout); each detail
+  page adds a `CreativeWork` block (canonical TR names). Static, non-user data only.
+- **No hardcoded UI strings**: all copy goes through the catalogs (former inline
+  `locale === "tr" ? ...` UI strings now live under the `ui.*` namespace).
+  `locale === "tr" ? line.name : line.nameEn` is allowed — that reads bilingual
+  *data* fields from `data/stations.ts`, not UI copy.
 - **Counts are derived**, never hardcoded — from `railLines` / `projects` /
-  `t.projects`. Don't reintroduce literal "5 lines / 30+ stations" copy.
+  message `projects`. Don't reintroduce literal "5 lines / 30+ stations" copy.
 
 ## Important Notes
 - This is NOT a political campaign site

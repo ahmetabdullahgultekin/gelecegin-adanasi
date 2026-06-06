@@ -1,16 +1,13 @@
 "use client";
 
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations } from "next-intl";
 import { costByCategory, type ProjectCategory } from "@/data/projects";
 
-const categoryMeta: Record<
-  ProjectCategory,
-  { color: string; tr: string; en: string }
-> = {
-  transport: { color: "var(--cat-transport)", tr: "Ulaşım", en: "Transport" },
-  tourism: { color: "var(--cat-tourism)", tr: "Turizm ve Tarım", en: "Tourism & Agriculture" },
-  digital: { color: "var(--cat-digital)", tr: "Dijital", en: "Digital" },
-  urban: { color: "var(--cat-urban)", tr: "Kentsel", en: "Urban" },
+const categoryColors: Record<ProjectCategory, string> = {
+  transport: "var(--cat-transport)",
+  tourism: "var(--cat-tourism)",
+  digital: "var(--cat-digital)",
+  urban: "var(--cat-urban)",
 };
 
 /** Format a USD-millions value as a compact "$Xm / $X.Xb" string. */
@@ -27,12 +24,13 @@ function fmt(usdM: number): string {
  * equivalent data table for screen readers.
  */
 export default function BudgetChart() {
-  const { locale } = useLocale();
+  const t = useTranslations();
   const data = costByCategory();
-  const rows = (Object.keys(categoryMeta) as ProjectCategory[]).map((cat) => ({
+  const rows = (Object.keys(categoryColors) as ProjectCategory[]).map((cat) => ({
     cat,
     value: data[cat],
-    ...categoryMeta[cat],
+    color: categoryColors[cat],
+    label: t(`ui.budgetCategories.${cat}`),
   }));
   const max = Math.max(...rows.map((r) => r.value), 1);
   const total = rows.reduce((s, r) => s + r.value, 0);
@@ -41,9 +39,7 @@ export default function BudgetChart() {
     <figure className="rounded-2xl border border-[color:var(--border)] bg-white p-6 md:p-8">
       <figcaption className="flex items-baseline justify-between gap-3 mb-6">
         <h3 className="font-display text-lg font-bold text-[color:var(--ink)] tracking-tight">
-          {locale === "tr"
-            ? "Kategoriye Göre Tahmini Bütçe"
-            : "Estimated Budget by Category"}
+          {t("ui.budget.chartHeading")}
         </h3>
         <span className="font-tabular font-bold text-[color:var(--civic-700)]">
           {fmt(total)}
@@ -55,7 +51,7 @@ export default function BudgetChart() {
           <div key={r.cat}>
             <div className="flex items-baseline justify-between mb-1.5 text-sm">
               <span className="font-medium text-[color:var(--ink-soft)]">
-                {locale === "tr" ? r.tr : r.en}
+                {r.label}
               </span>
               <span className="font-tabular text-[color:var(--ink-muted)]">
                 {fmt(r.value)}
@@ -64,7 +60,7 @@ export default function BudgetChart() {
             <div
               className="h-2.5 rounded-full bg-[color:var(--paper-soft)] overflow-hidden"
               role="img"
-              aria-label={`${locale === "tr" ? r.tr : r.en}: ${fmt(r.value)}`}
+              aria-label={`${r.label}: ${fmt(r.value)}`}
             >
               <div
                 className="h-full rounded-full transition-[width] duration-700"
@@ -79,9 +75,7 @@ export default function BudgetChart() {
       </div>
 
       <p className="mt-6 text-xs text-[color:var(--ink-muted)] leading-relaxed">
-        {locale === "tr"
-          ? "Yalnızca sabit sermaye maliyeti tahmini olan projeler toplanmıştır. Kamu-özel ortaklığı ve çok yıllı program bütçeleri hariçtir. Rakamlar fizibilite öncesi tahminlerdir."
-          : "Only projects with a fixed capital-cost estimate are summed. Public-private partnerships and multi-year programme budgets are excluded. Figures are pre-feasibility estimates."}
+        {t("ui.budget.chartNote")}
       </p>
     </figure>
   );

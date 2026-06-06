@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { useLocale } from "@/lib/locale-context";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export default function Footer() {
-  const { t, locale } = useLocale();
+  const t = useTranslations();
+  const badges = t.raw("ui.footer.badges") as string[];
 
   return (
     <footer className="bg-[color:var(--civic-900)] text-white/70">
@@ -27,18 +28,15 @@ export default function Footer() {
                   Geleceğin Adana&apos;sı
                 </p>
                 <p className="text-xs text-white/50 font-mono uppercase tracking-widest mt-0.5">
-                  {locale === "tr" ? "Şehir Planlama" : "Urban Planning"}
+                  {t("ui.footer.tagline")}
                 </p>
               </div>
             </div>
             <p className="text-sm text-white/60 leading-relaxed max-w-md">
-              {t.footer.description}
+              {t("footer.description")}
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
-              {(locale === "tr"
-                ? ["Bağımsız", "Açık kaynak", "Siyasetten bağımsız"]
-                : ["Independent", "Open source", "Non-political"]
-              ).map((label) => (
+              {badges.map((label) => (
                 <span
                   key={label}
                   className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-white/15 bg-white/5 text-xs text-white/70 font-medium"
@@ -53,27 +51,27 @@ export default function Footer() {
           {/* Nav */}
           <div>
             <h3 className="font-display text-white font-semibold text-sm uppercase tracking-widest mb-4">
-              {locale === "tr" ? "Gezinme" : "Navigation"}
+              {t("ui.footer.navigation")}
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/" className="hover:text-white transition-colors">
-                  {t.nav.home}
+                  {t("nav.home")}
                 </Link>
               </li>
               <li>
                 <Link href="/projeler" className="hover:text-white transition-colors">
-                  {t.nav.projects}
+                  {t("nav.projects")}
                 </Link>
               </li>
               <li>
                 <Link href="/harita" className="hover:text-white transition-colors">
-                  {t.nav.map}
+                  {t("nav.map")}
                 </Link>
               </li>
               <li>
                 <Link href="/hakkinda" className="hover:text-white transition-colors">
-                  {t.nav.about}
+                  {t("nav.about")}
                 </Link>
               </li>
             </ul>
@@ -82,7 +80,7 @@ export default function Footer() {
           {/* Open source / contact */}
           <div>
             <h3 className="font-display text-white font-semibold text-sm uppercase tracking-widest mb-4">
-              {locale === "tr" ? "Katılın" : "Contribute"}
+              {t("ui.footer.contribute")}
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
@@ -105,7 +103,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors"
                 >
-                  {locale === "tr" ? "Öneri / eleştiri" : "Suggest / critique"}
+                  {t("ui.footer.suggest")}
                 </a>
               </li>
               <li>
@@ -126,12 +124,10 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs text-white/50">
           <p className="font-mono">
-            &copy; {new Date().getFullYear()} Geleceğin Adana&apos;sı. {t.footer.rights}
+            &copy; {new Date().getFullYear()} Geleceğin Adana&apos;sı. {t("footer.rights")}
           </p>
           <p>
-            {locale === "tr"
-              ? "Bu bir siyasi kampanya değildir. Siyasi bağ yok."
-              : "This is not a political campaign. No political affiliation."}
+            {t("ui.footer.notPolitical")}
           </p>
         </div>
       </div>
