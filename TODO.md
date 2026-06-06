@@ -7,6 +7,36 @@ Each item: scope, affected paths, rationale, and a verifiable done-condition.
 > counts/claims against `src/data/stations.ts` and `src/lib/i18n.ts` at HEAD,
 > not against this file or the README.
 
+> Note (2026-06-06): the P0–P3 items below are the original 2026-06-05 backlog,
+> all delivered. Some descriptions predate the **next-intl `[locale]` routing
+> migration** (PR #10) — e.g. `?lang=en`, `locale-context.tsx`, `src/lib/i18n.ts`
+> as the string source. Those concerns are now handled by `messages/{tr,en}.json`
+> + `src/i18n/*` + `proxy.ts`; the historical text is kept for provenance. Live
+> planning lives in **ROADMAP.md** (ten tracks). Newest work is logged below.
+
+---
+
+## Newest (post-next-intl)
+
+- [x] **Automated data-integrity + i18n-parity test suite (Vitest), wired into CI.**
+  <!-- DONE 2026-06-06: added Vitest 3 + vite-tsconfig-paths (devDeps),
+       vitest.config.ts (node env), and src/__tests__/{data-integrity,
+       i18n-parity}.test.ts (29 tests). Asserts: projects.i18nKey ⇄
+       messages/*.json projects ⇄ project-detail-content three-way key sync;
+       unique URL-safe slugs; every railLineId/locationMatcher resolves; derived
+       cost aggregations consistent; station/marker coords in the Çukurova box;
+       full recursive TR/EN catalog parity (key shape, array lengths, ICU
+       placeholders, no empty leaf strings). `npm test` = `vitest run`; CI now
+       runs lint → test → build. Negative-tested (broke a key/array/empty-string
+       → 4 failures, restored byte-identical). lint + test + build all green. -->
+
+  - Why: tech-stack review (2026-06-05) priority #3 and Track J's "content as
+    data" item; both review docs flagged "silent-null on a typo'd key" as the
+    biggest unguarded defect class. CLAUDE.md's "MUST stay in sync" invariant
+    was previously unenforced.
+  - Done when: `npm test` runs in CI between lint and build and fails on any
+    project-source drift or TR/EN catalog mismatch. ✔
+
 ---
 
 ## P0 — Security / release hygiene (do first)
