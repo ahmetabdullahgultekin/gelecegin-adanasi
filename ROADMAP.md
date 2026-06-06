@@ -35,7 +35,7 @@ planner can critique, and a citizen can contribute to, in either language.
 
 ---
 
-## Current state (verified at HEAD, 2026-06-05)
+## Current state (verified at HEAD, 2026-06-06)
 
 **Stack:** Next.js 16 (App Router, Turbopack) + React 19 + TypeScript +
 Tailwind CSS 4 + Leaflet/react-leaflet over OpenStreetMap; **`next-intl`
@@ -60,8 +60,12 @@ pairing the TR canonical with its `/en` twin, `Organization` + `WebSite` JSON-LD
 site-wide and a `CreativeWork` block per project, `<html lang={locale}>` set at
 the layout, and an OG image.
 
-**Build health:** `npm run lint` + `npm run build` green; CI runs both on PRs;
-`.dockerignore` trims the build context; Leaflet CSS is self-hosted (no CDN).
+**Build health:** `npm run lint` + `npm test` + `npm run build` green; CI runs
+all three on PRs (lint → test → build); `.dockerignore` trims the build context;
+Leaflet CSS is self-hosted (no CDN). A **Vitest data-integrity + i18n-parity
+suite** (`src/__tests__/`, 29 tests) now gates the load-bearing
+`projects ⇄ i18n ⇄ detail-content` key sync and full TR/EN catalog parity
+(shipped 2026-06-06 — see *Done*).
 
 ---
 
@@ -182,9 +186,17 @@ track, items are ordered. A track is "done enough" when its **Outcome** holds.
 
 ### Track J — Platform & DX hardening
 - [x] CI (lint + build) gating PRs; `.dockerignore`; Dependabot.
+- [x] **Content as data — automated integrity gate** (2026-06-06): Vitest suite
+  (`src/__tests__/data-integrity.test.ts` + `i18n-parity.test.ts`, 29 tests,
+  wired into CI between lint and build). Asserts TR/EN catalog key parity
+  (recursive shape + array-length + ICU-placeholder + no-empty-leaf),
+  `projects.i18nKey ⇄ message catalog ⇄ project-detail-content` three-way sync,
+  unique URL-safe slugs, every `railLineId`/`locationMatcher` resolves, derived
+  cost aggregations stay consistent, and station/marker coordinates fall in the
+  Çukurova bounding box. Closes the "silent-null on a typo'd key" risk both the
+  tech-stack and code-quality reviews (2026-06-05) flagged as the biggest
+  unguarded defect class.
 - [ ] **Visual-regression / Lighthouse-CI** check on PRs.
-- [ ] **Content as data**: keep all copy in `i18n.ts` / typed data modules;
-  add a unit test asserting TR/EN key parity and slug↔i18nKey integrity.
 - [ ] **Preview deploys** per PR (optional) for review.
 - [ ] Error monitoring (Sentry or log-based) for the standalone server.
 - **Outcome:** changes are safe, reviewable, and regressions are caught before
@@ -194,8 +206,9 @@ track, items are ordered. A track is "done enough" when its **Outcome** holds.
 
 ## Sequencing (suggested)
 
-1. **Now → near-term:** Track B server-rendered EN + localized metadata;
-   Track F Lighthouse baseline; Track J TR/EN key-parity test.
+1. **Now → near-term:** Track B server-rendered EN + localized metadata
+   *(done)*; Track J TR/EN key-parity test *(done 2026-06-06)*; Track F
+   Lighthouse baseline.
 2. **Next:** Track C structured-fields v2 + Gantt; Track D deep-linkable map &
    line drawer; Track E structured feedback form.
 3. **Then:** Track A citations + methodology; Track G full a11y + axe-in-CI;
@@ -224,6 +237,12 @@ track, items are ordered. A track is "done enough" when its **Outcome** holds.
 - **Engagement:** no-account feedback links site-wide.
 - **A11y baseline:** `aria-pressed` map filters, focus-visible states, semantic
   breadcrumbs.
+- **Automated correctness gate (2026-06-06):** Vitest data-integrity +
+  i18n-parity suite (29 tests, `src/__tests__/`), run in CI between lint and
+  build (`npm test` = `vitest run`). Protects the `projects ⇄ i18n ⇄
+  detail-content` key sync and full TR/EN catalog parity — the project's first
+  automated tests, satisfying tech-stack-review priority #3 and Track J's
+  "content as data" item.
 
 ---
 

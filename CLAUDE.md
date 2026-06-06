@@ -52,6 +52,12 @@ src/
                              #   server code (metadata/JSON-LD); + Locale type
     project-detail-content.ts# Long-form bilingual detail copy (feasibility, etc.)
     site.ts                  # SITE_URL, LOCALES, async alternatesFor() (hreflang)
+  __tests__/                 # Vitest suites (node env, no DOM)
+    data-integrity.test.ts   # projects ⇄ i18n ⇄ detail-content key sync, unique
+                             #   URL-safe slugs, railLine/location cross-refs,
+                             #   cost aggregations, coord bounding box
+    i18n-parity.test.ts      # recursive TR/EN catalog key-shape parity, array
+                             #   lengths, ICU placeholders, no empty leaf strings
 messages/
   tr.json / en.json          # next-intl catalogs (source of truth, same keys);
                              #   `ui.*` namespace holds former inline UI strings
@@ -60,7 +66,8 @@ public/
   images/projects-hero.webp  # Illustrated projects hero (next/image static import)
 scripts/                     # SVG sources for the OG image + hero (rasterized via sharp/rsvg)
 docs/                        # Local docs (gitignored) — includes original brainstorm chat
-.github/workflows/ci.yml     # npm ci + lint + build on PRs and push to main
+vitest.config.ts             # Vitest config (node env, vite-tsconfig-paths for @/*)
+.github/workflows/ci.yml     # npm ci → lint → test → build on PRs and push to main
 ```
 
 ## Conventions
@@ -131,6 +138,23 @@ the sitemap). When adding/removing a project, keep these in sync: `i18n.ts`
 - **Counts are derived**, never hardcoded — from `railLines` / `projects` /
   message `projects`. Don't reintroduce literal "5 lines / 30+ stations" copy.
 
+## Testing
+- **Runner:** Vitest (`node` environment — these are pure data/i18n assertions,
+  no DOM/React rendering). Config: `vitest.config.ts` (uses `vite-tsconfig-paths`
+  so `@/*` resolves as in the app). Run with `npm test`; CI runs it between lint
+  and build.
+- **What's covered** (`src/__tests__/`): the load-bearing
+  `projects.i18nKey ⇄ messages/*.json projects ⇄ project-detail-content` key
+  sync, unique URL-safe slugs, every `railLineId`/`locationMatcher` resolving,
+  derived cost aggregations, station/marker coordinate sanity, and full
+  recursive TR/EN catalog parity (key shape, array lengths, ICU placeholders,
+  no empty strings).
+- **When you add/rename/remove a project, rail line, or message key**, run
+  `npm test` — a drift in any of the three project sources, or a TR/EN catalog
+  mismatch, fails the suite (this is the gate that replaces the old
+  "remember to keep these in sync" note). Add a focused assertion when you
+  introduce a new cross-module invariant.
+
 ## Important Notes
 - This is NOT a political campaign site
 - All proposals must include realistic budget estimates and feasibility notes
@@ -141,10 +165,15 @@ the sitemap). When adding/removing a project, keep these in sync: `i18n.ts`
 ## Commands
 ```bash
 npm run dev                                              # Dev server (port 3000)
-npm run build                                            # Production build
-npm run lint                                             # ESLint
+npm run build                                            # Production build (also type-checks)
+npm run lint                                             # ESLint (flat config)
+npm test                                                 # Vitest run (data-integrity + i18n parity)
+npm run test:watch                                       # Vitest watch mode (local dev)
 docker compose -f docker-compose.prod.yml up -d --build  # Production deploy
 ```
+
+**CI order** (`.github/workflows/ci.yml`, on PRs + push to `main`):
+`npm ci` → `npm run lint` → `npm test` → `npm run build`. All four must be green.
 
 ## Deploy
 - Production: `https://geleceginadanasi.com.tr` (LIVE)
